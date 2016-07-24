@@ -4,7 +4,11 @@
 
 [https://github.com/appcoda/React-Native-Demo-App](https://github.com/appcoda/React-Native-Demo-App)
 
-[http://blog.oneapm.com/apm-tech/391.html](http://blog.oneapm.com/apm-tech/391.html)等
+[如何用 React Native 创建一个iOS APP？（一）](http://blog.oneapm.com/apm-tech/366.html)
+
+[如何用 React Native 创建一个iOS APP？（二）](http://blog.oneapm.com/apm-tech/391.html)
+
+[如何用 React Native 创建一个iOS APP？（三）](http://blog.oneapm.com/apm-tech/416.html)
 #####2.京东砍啊砍
 
 [https://github.com/sunnycn2013/HelloWorld](https://github.com/sunnycn2013/HelloWorld)

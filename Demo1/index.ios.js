@@ -9,24 +9,45 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TabBarIOS,
 } from 'react-native';
 
+import Featured from './containers/Featured'
+import Search from './containers/Search'
 class Demo1 extends Component {
+  constructor(props) {
+	  super(props);
+	  this.state = {
+      selectTab:'featured',
+    };
+	}
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <TabBarIOS selectTab = {this.state.selectTab}>
+        <TabBarIOS.Item
+          selected = {this.state.selectTab == 'featured'}
+          // icon = {{uri:'featured'}}
+          systemIcon = 'featured'
+          onPress = {() => {
+            this.setState ({
+              selectTab:'featured'
+            });
+          }}>
+          <Featured/>
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          selected = {this.state.selectTab == 'search'}
+          // icon = {{uri:'search'}}
+          systemIcon= 'search'
+          onPress = {() => {
+            this.setState ({
+              selectTab:'search'
+            });
+          }}>
+          <Search/>
+        </TabBarIOS.Item>
+      </TabBarIOS>
     );
   }
 }

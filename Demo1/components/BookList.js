@@ -12,6 +12,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import BookDetail from './BookDetail';
+
 let FAKE_BOOK_DATA = [
     {volumeInfo: {title: 'The Catcher in the Rye', authors: "J. D. Salinger", imageLinks: {thumbnail: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2721385247,1356253863&fm=206&gp=0.jpg'}}},
     {volumeInfo: {title: 'The Catcher in the Rye', authors: "J. D. Salinger", imageLinks: {thumbnail: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2721385247,1356253863&fm=206&gp=0.jpg'}}}
@@ -43,11 +45,16 @@ class BookList extends Component {
     .done();
   }
   _showBookDetail(book){
-    alert('图书详情');
+    // alert('图书详情');
+    this.props.navigator.push({
+      title: book.title,
+      component: BookDetail,
+      passProps: {book},
+    });
   }
   _renderBook(book){
     return (
-      <TouchableHighlight onPress={() => this._showBookDetail(book)} underlayColor='#dddddd'>
+      <TouchableHighlight onPress={() => this._showBookDetail(book)}  underlayColor='#dddddd'>
         <View>
           <View style={styles.container}>
             <Image

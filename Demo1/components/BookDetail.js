@@ -10,6 +10,7 @@ import {
   ListView,
   TouchableHighlight,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 
 class BookDetail extends Component {
@@ -18,15 +19,20 @@ class BookDetail extends Component {
     let imageURI = (typeof book.image !== 'undefined') ? book.image : '';
     let description = (typeof book.summary !== 'undefined') ? book.summary : '';
     return (
-      <View style = {styles.container}>
-        <Image style = {styles.image} source = {{uri:imageURI}} />
-        <Text style = {styles.description}> {description} </Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style = {styles.container}>
+          <Image style = {styles.image} source = {{uri:imageURI}} />
+          <Text style = {styles.description}> {description} </Text>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  contentContainer:{
+    // flex:1,
+  },
   container: {
     // flex: 1,
     // flexDirection: 'row',

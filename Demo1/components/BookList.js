@@ -44,6 +44,7 @@ class BookList extends Component {
     })
     .done();
   }
+  // TODO: 点击进入详情页的时候,隐藏tabbar
   _showBookDetail(book){
     // alert('图书详情');
     this.props.navigator.push({
@@ -70,10 +71,11 @@ class BookList extends Component {
       </TouchableHighlight>
     )
   }
+
   render() {
     if (this.state.isLoading) {
       return(
-        <View style = {styles.isLoading}>
+        <View style = {styles.loading}>
           <ActivityIndicator size = 'large'/>
           <Text style = {{textAlign:'center'}}>
             Loading books...
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   title: {
-    fontSize: 20,
+    fontSize: 17,
     marginBottom: 8
   },
   author: {

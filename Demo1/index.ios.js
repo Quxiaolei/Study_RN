@@ -24,7 +24,8 @@ class Demo1 extends Component {
 	}
   render() {
     return (
-      <TabBarIOS selectTab = {this.state.selectTab}>
+      <TabBarIOS selectTab = {this.state.selectTab}
+        translucent = {true}>
         <TabBarIOS.Item
           selected = {this.state.selectTab == 'featured'}
           // icon = {{uri:'featured'}}

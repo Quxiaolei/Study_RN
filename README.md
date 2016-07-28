@@ -41,6 +41,45 @@ flex-basis:length | auto,默认值auto
 
 6.justifyContent:
 ___
+###事件绑定
+1.调用bind方法时,需要设定作用域,传递该传递的参数.默认会传递this参数
+
+```
+//{()=>}	larmart语法
+```
+2.//TODO: bind时this的使用
+
+---
+###组件生命周期
+1.创建阶段:
+
+getDefaultProps  [创建类的时候被调用],this.props该组件的默认属性值 
+
+2.实例化阶段，
+
+getInitialState  [获取this.state的默认值],this.state存储该组件所需的数据,每次数据的更新通过修改state属性的值.内部监听state属性的变化,主动触发组件的render方法更新虚拟DOM文件
+
+componentWillMount  [在render之前调用此方法，业务逻辑的处理都应该放在这里，如对state的操作等]
+
+render  [渲染并返回一个虚拟DOM]
+
+componentDidMount  [在render方法之后，ReactJS会使用render方法返回的虚拟DOM对象来创建真是的DOM]
+
+3.更新阶段:
+
+componentWillRecieveProps  [this.props被修改或父组件调用setProps()方法之后]
+
+shouldComponentUpdate  [是否需要更新]
+
+componentWillUpdate  [将要更新]
+
+componentDidUpdate  [更新完毕]常做DOM的操作
+
+4.销毁阶段:
+
+componentWillUnmount  [销毁时]取消事件的绑定,移除虚拟DOM中组件的数据结构,销毁无效的定时器
+
+---
 
 [React/React Native 的ES5 ES6写法对照表](http://bbs.reactnative.cn/topic/15/react-react-native-%E7%9A%84es5-es6%E5%86%99%E6%B3%95%E5%AF%B9%E7%85%A7%E8%A1%A8)
 

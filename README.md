@@ -50,23 +50,15 @@ flex-basis:length | auto,默认值auto
 3.多个样式:```style = {[styles.container,{backgroundColor:'red'}]}```
 
 eg:
-
-```borderLeftWidth```
-
-```borderRightWidth```
-
-```borderBottomWidth```
-
-```borderTopWidth```
-
-```
+```javascript
 lineLeftRight:{
+    //borderLeftWidth,borderRightWidth,borderBottomWidth,borderTopWidth
 	borderLeftWidth:1/PixelRatio.get(),//获取设备的最小线宽
 	borderRightWidth:1/PixelRatio.get(),
 	borderColor:'#fff',
 }
 ```
-___
+---
 ###事件绑定
 1.调用bind方法时,需要设定作用域,传递该传递的参数.默认会传递this参数
 
@@ -124,7 +116,7 @@ componentWillUnmount  [销毁时]取消事件的绑定,移除虚拟DOM中组件�
 
 1.navigator:(navigatorIOS由开源社区书写,兼容性,稳定性不好,不建议使用)
 
-```
+```javascript
 _renderScene(route, navigator) {
     let Component = route.component;
     return (
@@ -133,7 +125,8 @@ _renderScene(route, navigator) {
     );
   }
 ```
-```...:ES6语法,遍历数组取出所有元素```
+
+注意:```...:ES6语法,遍历数组取出所有元素```
 
 renderScene:可渲染指定的路由,
 configureScene:获取指定路由对象的配置信息,可以改变场景的动画或者手势.
@@ -142,7 +135,7 @@ navigator间传值:
 
 *	父->子:
 
-```
+```javascript
 <TouchableOpacity
 	onPress={() => navigator.push({
 		component: SocialDetailView,
@@ -162,7 +155,7 @@ navigator间传值:
 
 父界面:
 
-```
+```javascript
 let that = this;
 <TouchableOpacity
 	onPress={() => navigator.push({
@@ -204,7 +197,7 @@ source:图片的引用地址
 #####组件的隐藏:
 使用state中记录当前组件的状态
 
-```
+```javascript
 //在render(){}方法中进行判断,根据state中属性值返回不同的界面效果
 {
 	this.state.isHidden?
@@ -229,7 +222,7 @@ source:图片的引用地址
 2.打包发布
 
 ---
-
+###其他资料
 [React/React Native 的ES5 ES6写法对照表](http://bbs.reactnative.cn/topic/15/react-react-native-%E7%9A%84es5-es6%E5%86%99%E6%B3%95%E5%AF%B9%E7%85%A7%E8%A1%A8)
 
 [手把手教React Native实战开发视频教程【更新到48集啦。。。】](http://bbs.reactnative.cn/topic/759/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99react-native%E5%AE%9E%E6%88%98%E5%BC%80%E5%8F%91%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B-%E6%9B%B4%E6%96%B0%E5%88%B048%E9%9B%86%E5%95%A6)

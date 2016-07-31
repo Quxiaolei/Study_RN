@@ -40,6 +40,32 @@ flex-basis:length | auto,默认值auto
 5.flexWrap:
 
 6.justifyContent:
+
+######样式
+
+1.内联样式:```style = {styles.container}```
+
+2.外联样式:```style = {{flex:1,backgroundColor:'red'}}```
+
+3.多个样式:```style = {[styles.container,{backgroundColor:'red'}]}```
+
+eg:
+
+```borderLeftWidth```
+
+```borderRightWidth```
+
+```borderBottomWidth```
+
+```borderTopWidth```
+
+```
+lineLeftRight:{
+	borderLeftWidth:1/PixelRatio.get(),//获取设备的最小线宽
+	borderRightWidth:1/PixelRatio.get(),
+	borderColor:'#fff',
+}
+```
 ___
 ###事件绑定
 1.调用bind方法时,需要设定作用域,传递该传递的参数.默认会传递this参数
@@ -47,6 +73,13 @@ ___
 ```
 //{()=>}	larmart语法
 ```
+
+//bind返回一个function函数
+
+//lambda生成的匿名函数中的this是lambda创建时的this,不是执行时的this
+
+//不传递this时,默认会传递一个this
+ 
 2.//TODO: bind时this的使用
 
 ---
@@ -78,6 +111,122 @@ componentDidUpdate  [更新完毕]常做DOM的操作
 4.销毁阶段:
 
 componentWillUnmount  [销毁时]取消事件的绑定,移除虚拟DOM中组件的数据结构,销毁无效的定时器
+
+---
+###组件间的通信
+
+1.父组件与子组件:```this.refs```
+
+2.子组件与父组件:```this.props```
+
+---
+###基本组件使用
+
+1.navigator:(navigatorIOS由开源社区书写,兼容性,稳定性不好,不建议使用)
+
+```
+_renderScene(route, navigator) {
+    let Component = route.component;
+    return (
+      //params,用于nav间的参数传递,push到下一级时使用
+      <Component {...route.params} navigator={navigator} />
+    );
+  }
+```
+```...:ES6语法,遍历数组取出所有元素```
+
+renderScene:可渲染指定的路由,
+configureScene:获取指定路由对象的配置信息,可以改变场景的动画或者手势.
+
+navigator间传值:
+
+*	父->子:
+
+```
+<TouchableOpacity
+	onPress={() => navigator.push({
+		component: SocialDetailView,
+		title:'详情页',
+		//params,用于nav间的参数传递,push到下一级时使用
+		params:{		
+        	title:book.title,
+        	author:book.author,
+        	book_search_id:1
+       }
+		})}
+	style={styles.button}>
+	<Text style={styles.buttonText}>详情</Text>
+</TouchableOpacity>
+```
+*	子->父
+
+父界面:
+
+```
+let that = this;
+<TouchableOpacity
+	onPress={() => navigator.push({
+		component: SocialDetailView,
+		title:'详情页',
+		//params,用于nav间的参数传递,push到下一级时使用
+		params:{		
+        	title:book.title,
+        	author:book.author,
+        	book_search_id:1,
+        	//相当于传递一个方法过去,类似delegate
+	       _getBooks:function(book){
+	       		that.setState({
+	       			book:book,
+	       		})
+       }
+       }
+		})}
+	style={styles.button}>
+	<Text style={styles.buttonText}>详情</Text>
+</TouchableOpacity>
+```
+子界面:
+
+```
+this.props.getBooks(book);
+```
+
+2.Image
+
+resizeMode:图片适应模式(cover,contain,stretch)
+
+source:图片的引用地址
+
+网络图片:```source = {{uri = 'http://....'}}```
+
+本地图片:```source = {require(''./images/logo.png))}```
+
+#####组件的隐藏:
+使用state中记录当前组件的状态
+
+```
+//在render(){}方法中进行判断,根据state中属性值返回不同的界面效果
+{
+	this.state.isHidden?
+		<View> </View> 
+		: null
+}
+```
+
+---
+###调试与打包发布
+
+1.调试:
+
+```react-native start```
+
+```react-native run```
+
+```react-native run-android```
+
+```react-native run-ios```
+
+2.打包发布
 
 ---
 

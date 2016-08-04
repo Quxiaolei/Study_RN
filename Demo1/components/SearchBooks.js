@@ -14,8 +14,10 @@ import {
   PixelRatio,
 } from 'react-native';
 
-// https://api.douban.com/v2/book/search?count=100&q=react-native
-let BOOKSEARCH_URL = 'https://api.douban.com/v2/book/search?count=100&q=';
+import SearchResults from './SearchResults';
+
+// https://api.douban.com/v2/book/search?count=10&q=react-native
+let BOOKSEARCH_URL = 'https://api.douban.com/v2/book/search?count=10&q=';
 class SearchBooks extends Component {
   constructor(props) {
         super(props);
@@ -27,24 +29,29 @@ class SearchBooks extends Component {
         };
   }
 
-  _TitleInputChanged(event){
+  _TitleInputChanged(text){
     this.setState({
-      bookTitle:event.nativeEvent.title,
+      bookTitle:text,
     });
+    console.log('this.bookTitle:'+this.state.bookTitle);
   }
-  _AuthorInputChanged(event){
+  _AuthorInputChanged(text){
     this.setState({
-      bookAuthor:event.nativeEvent.title,
+      bookAuthor:text,
     });
+    console.log('this.bookAuthor:'+this.state.bookAuthor);
   }
   _searchBook(){
     // if (this.state.bookTitle.length <= 0 && this.state.bookAuthor.length <= 0) {
     //   alert('内容为空,请重新输入');
     //   return;
     // }
+    this.setState ({
+      isLoading:true,
+    });
     let requestURL;
     // TODO: 字符串转换
-    alert('bookTitle:'+this.state.bookTitle+' ,bookAuthor:'+this.state.bookAuthor);
+    console.log('bookTitle:'+this.state.bookTitle+' ,bookAuthor:'+this.state.bookAuthor);
     if(this.state.bookTitle != ''){
       requestURL = BOOKSEARCH_URL+this.state.bookTitle;
     }else if (this.state.bookAuthor != '') {
@@ -56,10 +63,33 @@ class SearchBooks extends Component {
     this._fetchData(requestURL);
   }
   _fetchData(requestURL){
-    alert(requestURL);
-    this.setState ({
-      isLoading:true,
-    });
+    // alert(requestURL);
+    console.log('requestURL:'+requestURL);
+    fetch(requestURL)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState ({
+          isLoading:false,
+        });
+        console.log('responseData.books'+responseData.books);
+        if (responseData.books) {
+          this.props.navigator.push({
+            title:'Search Results',
+            component:SearchResults,
+            passProps:{books:responseData.books}
+          });
+        }else {
+          this.setState ({
+            errorMessage:'NO Result Found',
+          });
+        }
+      })
+      .catch(error => this.setState ({
+          isLoading:false,
+          errorMessage:error,
+        })
+      )
+      .done();
   }
 
   render() {
@@ -81,12 +111,12 @@ class SearchBooks extends Component {
         </Text>
         <TextInput style = {styles.textInput}
           autoFocus = {true}
-          onChange = {this._TitleInputChanged.bind(this)}>
+          onChangeText = {(text) => this._TitleInputChanged.bind(this,text)()}>
         </TextInput>
         <Text style = {styles.titleDescription}>
           Author:
         </Text>
-        <TextInput style = {styles.textInput} onChange = {this._AuthorInputChanged.bind(this)}>
+        <TextInput style = {styles.textInput} onChangeText = {(text) => this._AuthorInputChanged.bind(this,text)()}>
         </TextInput>
         <TouchableHighlight style = {styles.button}
                             underlayColor = '#f1c40f'

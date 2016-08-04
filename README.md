@@ -79,7 +79,8 @@ lineLeftRight:{
     //bind返回一个function函数
     //lambda生成的匿名函数中的this是lambda创建时的this,不是执行时的this
     //不传递this时,默认会传递一个this
-    //箭头函数实际上是在这里定义了一个临时的函数，箭头函数的箭头=>之前是一个空括号、单个的参数名、或用括号括起的多个参数名，而箭头之后可以是一个表达式（作为函数的返回值），或者是用花括号括起的函数体（需要自行通过return来返回值，否则返回的是undefined）
+    //箭头函数实际上是在这里定义了一个临时的函数，箭头函数的箭头=>之前是一个空括号、单个的参数名、或用括号括起的多个参数名，
+    //而箭头之后可以是一个表达式（作为函数的返回值），或者是用花括号括起的函数体（需要自行通过return来返回值，否则返回的是undefined）
     this._onRefresh.bind(this,this.state.channel)();
     // this._onRefresh(this);
     }

@@ -65,6 +65,7 @@ lineLeftRight:{
 ```
 //{()=>}	larmart语法
 ```
+//this所指的就是直至包含this指针的上层对象
 
 //bind返回一个function函数
 
@@ -73,6 +74,7 @@ lineLeftRight:{
 //不传递this时,默认会传递一个this
 
 //箭头函数实际上是在这里定义了一个临时的函数，箭头函数的箭头=>之前是一个空括号、单个的参数名、或用括号括起的多个参数名，而箭头之后可以是一个表达式（作为函数的返回值），或者是用花括号括起的函数体（需要自行通过return来返回值，否则返回的是undefined）。
+
 ```javascript
 // {this._onRefresh.bind(this)}
 {() => {
@@ -85,6 +87,28 @@ lineLeftRight:{
     // this._onRefresh(this);
     }
 }
+```
+//箭头函数没有它自己的this值，箭头函数内的this值继承自外围作用域。效果等同于使用lambda语法的局部变量方法
+```javascript
+_pressRow(title  
+          Alert.alert( 'Alert Title', "hello",[{ text: 'OK', onPress: () => console.log('OK Pressed!')}])  
+}
+_renderRowView(rowData) {  
+     return (  
+          <TouchableHighlight underlayColor='#c8c7cc'  
+                              onPress={ () => this._pressRow(rowData.title)}>
+          </TouchableHighlight>
+     );
+}
+render() {  
+     return (  
+          <ScrollView>  
+               <ListView dataSource={this.state.dataSource}
+	                      //{this._renderRowView.bind(this)}
+                         renderRow= {(rowData) => this._renderRowView(rowData)}/>
+          </ScrollView>  
+     );  
+}  
 ```
  
 2.//TODO: bind时this的使用
@@ -198,7 +222,9 @@ let that = this;
 ```javascript
 this.props.getBooks(book);
 ```
-
+更多参见:
+[新手理解Navigator的教程](http://bbs.reactnative.cn/topic/20/%E6%96%B0%E6%89%8B%E7%90%86%E8%A7%A3navigator%E7%9A%84%E6%95%99%E7%A8%8B/2)
+[https://github.com/mozillo/navigation](https://github.com/mozillo/navigation)
 2.Image
 
 resizeMode:图片适应模式(cover,contain,stretch)
@@ -220,6 +246,35 @@ source:图片的引用地址
 		: null
 }
 ```
+
+---
+###RN网络请求
+1.get请求:
+```javascript
+fetch(requestURL)
+  .then((response) => response.json())
+  .then((responseData) => { })
+  .catch((error) => { })
+  .done();
+```
+2.post请求:
+```javascript
+let fetchOptions = {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    //json形式
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+};
+
+fetch(url, fetchOptions)
+  .then((response) => response.text())
+  .then((responseText) => { })
+  .done();
+```
+更多参见:[React-Native中网络请求的总结](http://blog.csdn.net/u010046908/article/details/50916511)
 
 ---
 ###调试与打包发布
@@ -257,8 +312,3 @@ source:图片的引用地址
 [http://www.myexception.cn/iphone/2031539.html](http://www.myexception.cn/iphone/2031539.html)
 #####3.豆搜
 [https://github.com/vczero/React-Dou](https://github.com/vczero/React-Dou)
-
-#####4.navigator
-[新手理解Navigator的教程](http://bbs.reactnative.cn/topic/20/%E6%96%B0%E6%89%8B%E7%90%86%E8%A7%A3navigator%E7%9A%84%E6%95%99%E7%A8%8B/2)
-
-[https://github.com/mozillo/navigation](https://github.com/mozillo/navigation)

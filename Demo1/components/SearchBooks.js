@@ -50,7 +50,6 @@ class SearchBooks extends Component {
       isLoading:true,
     });
     let requestURL;
-    // TODO: 字符串转换
     console.log('bookTitle:'+this.state.bookTitle+' ,bookAuthor:'+this.state.bookAuthor);
     if(this.state.bookTitle != ''){
       requestURL = BOOKSEARCH_URL+this.state.bookTitle;
@@ -84,7 +83,7 @@ class SearchBooks extends Component {
           });
         }
       })
-      .catch(error => this.setState ({
+      .catch((error) => this.setState ({
           isLoading:false,
           errorMessage:error,
         })

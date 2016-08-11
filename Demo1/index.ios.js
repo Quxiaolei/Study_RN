@@ -25,6 +25,7 @@ class Demo1 extends Component {
   render() {
     return (
       <TabBarIOS selectTab = {this.state.selectTab}
+      //translucent:半透明
         translucent = {true}>
         <TabBarIOS.Item
           selected = {this.state.selectTab == 'featured'}

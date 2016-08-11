@@ -53,6 +53,7 @@ class BookList extends Component {
       passProps: {book},
     });
   }
+  //this值继承自外围作用域
   _renderBook(book){
     return (
       <TouchableHighlight onPress={() => this._showBookDetail(book)}  underlayColor='#dddddd'>
@@ -86,7 +87,9 @@ class BookList extends Component {
     return (
       <ListView
         dataSource = {this.state.dataSource}
-        renderRow = {this._renderBook.bind(this)}
+        //this绑定的是cell,当前指针的上一层对象
+        renderRow = {(book) => this._renderBook(book)}
+        // {this._renderBook.bind(this)}
         style = {styles.listView}>
       </ListView>
     );

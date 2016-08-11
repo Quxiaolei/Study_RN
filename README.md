@@ -90,25 +90,24 @@ lineLeftRight:{
 ```
 //箭头函数没有它自己的this值，箭头函数内的this值继承自外围作用域。效果等同于使用lambda语法的局部变量方法
 ```javascript
-_pressRow(title  
-          Alert.alert( 'Alert Title', "hello",[{ text: 'OK', onPress: () => console.log('OK Pressed!')}])  
+_pressRow(title){
+    Alert.alert( 'Alert Title', "hello",[{ text: 'OK', onPress: () => console.log('OK Pressed!')}])  
 }
-_renderRowView(rowData) {  
-     return (  
-          <TouchableHighlight underlayColor='#c8c7cc'  
-                              onPress={ () => this._pressRow(rowData.title)}>
-          </TouchableHighlight>
-     );
+_renderRowView(rowData) {
+    return (
+    <TouchableHighlight underlayColor='#c8c7cc'
+                        onPress={() => this._pressRow(rowData.title)}>
+    </TouchableHighlight>
+    );
 }
 render() {  
-     return (  
-          <ScrollView>  
-               <ListView dataSource={this.state.dataSource}
-	                      //{this._renderRowView.bind(this)}
-                         renderRow= {(rowData) => this._renderRowView(rowData)}/>
-          </ScrollView>  
-     );  
-}  
+    return (
+        <ScrollView>  
+            <ListView dataSource={this.state.dataSource}	                      //{this._renderRowView.bind(this)}
+                      renderRow= {(rowData) => this._renderRowView(rowData)}/>
+        </ScrollView>
+    );
+}
 ```
  
 2.//TODO: bind时this的使用

@@ -73,7 +73,7 @@ lineLeftRight:{
 
 //不传递this时,默认会传递一个this
 
-//箭头函数实际上是在这里定义了一个临时的函数，箭头函数的箭头=>之前是一个空括号、单个的参数名、或用括号括起的多个参数名，而箭头之后可以是一个表达式（作为函数的返回值），或者是用花括号括起的函数体（需要自行通过return来返回值，否则返回的是undefined）。
+//箭头函数实际上是在这里定义了一个临时的函数，箭头函数的箭头```=>```之前是一个空括号、单个的参数名、或用括号括起的多个参数名，而箭头之后可以是一个表达式（作为函数的返回值），或者是用花括号括起的函数体（需要自行通过return来返回值，否则返回的是undefined）。
 
 ```javascript
 // {this._onRefresh.bind(this)}
@@ -149,7 +149,34 @@ componentWillUnmount  [销毁时]取消事件的绑定,移除虚拟DOM中组件�
 
 2.子组件与父组件:```this.props```
 
+```javascript
+//声明
+class Button extends React.Component {
+  _handlePress: function() {
+    if (this.props.enabled && this.props.onPress) {
+    //返回"onPress"方法
+      this.props.onPress();
+    }
+  },
+  render() {
+    return (
+      <TouchableWithoutFeedback onPress={this._handlePress}>
+      //直接使用"enabled"属性
+        <View style={[styles.button, this.props.enabled ? {} : styles.buttonDisabled]}>
+        //直接使用"text"属性
+          <Text style={styles.buttonText}>{this.props.text}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+};
+
+//使用时直接定义,"text","enabled"等props属性和"onPress"方法
+<Button text="Start" enabled={page > 0} onPress={() => this.go(0)}/>
+```
+
 ---
+
 ###基本组件使用
 
 1.navigator:(navigatorIOS由开源社区书写,兼容性,稳定性不好,不建议使用)
@@ -245,7 +272,28 @@ source:图片的引用地址
 		: null
 }
 ```
-
+#####基于不同设备的尺寸获取:
+1.获取当前屏幕的宽高
+```javascript
+let width = Dimension.get('window').width;
+let height = Dimension.get('window').height;
+```
+2.设备线宽
+```javascript
+//get()获取像素密度
+let pixel = 1/PixelRatio.get();
+```
+3.自适应宽高
+```javascript
+let width = PixelRatio.getPixelSizeForLayoutSize(100);
+let height = PixelRatio.getPixelSizeForLayoutSize(200);
+```
+内部实现:
+```javascript
+function getPixelSizeForLayoutSize(layoutSize) {
+	return Math.round(layoutSize*PixelRatio.get());
+}
+```
 ---
 ###RN网络请求
 1.get请求:

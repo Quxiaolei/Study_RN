@@ -103,7 +103,8 @@ _renderRowView(rowData) {
 render() {  
     return (
         <ScrollView>  
-            <ListView dataSource={this.state.dataSource}	                      //{this._renderRowView.bind(this)}
+            <ListView dataSource={this.state.dataSource}
+                    //{this._renderRowView.bind(this)}
                       renderRow= {(rowData) => this._renderRowView(rowData)}/>
         </ScrollView>
     );
@@ -191,7 +192,7 @@ _renderScene(route, navigator) {
   }
 ```
 
-注意:```...:ES6语法,遍历数组取出所有元素```
+注意:```...```:ES6语法,遍历数组取出所有元素
 
 renderScene:可渲染指定的路由,
 configureScene:获取指定路由对象的配置信息,可以改变场景的动画或者手势.
@@ -251,6 +252,7 @@ this.props.getBooks(book);
 更多参见:
 [新手理解Navigator的教程](http://bbs.reactnative.cn/topic/20/%E6%96%B0%E6%89%8B%E7%90%86%E8%A7%A3navigator%E7%9A%84%E6%95%99%E7%A8%8B/2)
 [https://github.com/mozillo/navigation](https://github.com/mozillo/navigation)
+
 2.Image
 
 resizeMode:图片适应模式(cover,contain,stretch)

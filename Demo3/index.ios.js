@@ -9,23 +9,52 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  Image,
   View
 } from 'react-native';
 
+class Greeting extends Component {
+  constructor() {
+    super();
+  }
+  render (){
+    return (
+      <Text style = {{textAlign:'center'}}>hello {this.props.name} </Text>
+    );
+  }
+}
+
+class Blink extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {showText:true};
+
+    setInterval(()=>{
+      this.setState({showText: !this.state.showText});
+    },1000);
+  }
+
+  render (){
+    let dispaly = this.state.showText ? this.props.text:'';
+    return(
+      <Text>🏃{dispaly} 🏃</Text>
+    );
+  }
+}
+
+
 export default class Demo3 extends Component {
   render() {
+    let image = {
+      uri:'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+    };
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <Text style={styles.welcome}> hello</Text>
+        <Text style = {{fontSize:21,textAlign:'center'}}>你好{'\n'} hello world</Text>
+        <Image source = {image} style = {{height:100,width:200}} />
+        <Greeting name = '张三'/>
+        <Blink text = '走你' />
       </View>
     );
   }

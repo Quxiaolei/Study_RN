@@ -46,7 +46,9 @@ class Greeting extends Component {
 
 4.FlexBox布局:
 
-![CSS3 Flexbox 口诀](Resources/ CSS3 Flexbox 口诀.jpg)
+`flexGrow`,`flexShrink`:设置子元素的伸缩能力是其他子元素伸缩值的多少倍.
+
+`flexBasis`:设置伸缩基准值,剩余的空间将按照比例进行伸缩.默认值`auto`.
 
 1.`flexDirection`:决定布局的**主轴**,也是flex切分界面布局方向.默认值是`column`.
 
@@ -56,22 +58,48 @@ class Greeting extends Component {
 
 `row-reverse`/`column-reverse`:对应方向的反向布局
 
-![CSS3 Flexbox 口诀-flexDirection](Resources/ CSS3 Flexbox 口诀-flexDirection.jpg)
+![CSS3 Flexbox 口诀-flexDirection](Resources/CSS3 Flexbox 口诀-flexDirection.jpg)
 
-2.
-![CSS3 Flexbox 口诀-flexWrap](Resources/ CSS3 Flexbox 口诀-flexWrap.jpg)
+2.`flexWrap`:主要用来定义当伸缩容器里单行显示不完整时是单行还是多行显示,侧轴的方向决定了新行显示的方向.默认值是`nowrap`.
 
-3.`justifyContent`:决定组件其子元素沿着**主轴**的对齐方式
+`wrap`, `nowrap`,`wrap-reverse`
 
-`flex-start`(靠近主轴始端)、`center`、`flex-end`(靠近主轴末端)、`space-around`(等比分割元素间的间隔)以及`space-between`(等比分割除去边界元素的间隔)。
-![CSS3 Flexbox 口诀-justifyContent](Resources/ CSS3 Flexbox 口诀-justifyContent.jpg)
+![CSS3 Flexbox 口诀-flexWrap](Resources/CSS3 Flexbox 口诀-flexWrap.jpg)
 
-4.`alignItems`:决定组件其子元素沿着**次轴**的对齐方式
+3.`justifyContent`:决定组件其子元素沿着**主轴**的对齐方式(此样式设置在父元素上).
+
+`flex-start`(靠近主轴始端)、`center`、`flex-end`(靠近主轴末端)、`space-around`(等比分割元素间的间隔,两端保留一半的空间)以及`space-between`(等比分割元素间的间隔,两端不保留空间)。
+
+![CSS3 Flexbox 口诀-justifyContent](Resources/CSS3 Flexbox 口诀-justifyContent.jpg)
+
+4.`alignItems`:决定组件其子元素沿着**次轴**的对齐方式(此样式设置在父元素上).默认值为`stretch`.
 
 `auto`、`flex-start`、`center`、`flex-end`以及`stretch`(使用时子元素在次轴方向上不能有固定的尺寸)。
-![CSS3 Flexbox 口诀-alignItems](Resources/ CSS3 Flexbox 口诀-alignItems.jpg)
+![CSS3 Flexbox 口诀-alignItems](Resources/CSS3 Flexbox 口诀-alignItems.jpg)
 
-![CSS3 Flexbox 口诀-alignContent](Resources/ CSS3 Flexbox 口诀-alignContent.jpg)
+`alignSelf`:决定了元素在父元素的**次轴**方向的排列方式（此样式设置在子元素上）,其值会覆盖父元素的`alignItems`的值.默认值为`auto.`
+`auto`, `flex-start`, `flex-end`, `center`, `stretch`
+
+![CSS3 Flexbox 口诀-alignContent](Resources/CSS3 Flexbox 口诀-alignContent.jpg)
+
+5.`padding`:`paddingTop`,`paddingBottom`,`paddingLeft`, `paddingRight`,`paddingHorizontal`,`paddingVertical`设置组件(上左下右,横竖)填充的宽度
+
+`margin`:`marginTop`,`marginLeft`,`marginBottom`,`marginRight`,`marginHorizontal`,`marginVertical`:设置组件(上左下右,横竖)边缘宽度
+
+`borderWidth`:`borderBottomWidth`,`borderLeftWidth`,`borderRightWidth`,`borderTopWidth`:设置组件边界宽度
+
+`borderColor`:设置对应边界(上左下右)的颜色,`borderRadius`:设置对应边界(上左下右)的角度,`borderStyle`:设置边界样式(`solid`,`dotted`,`dashed`)
+
+![margin-bottom](Resources/margin-bottom.svg)
+
+`top`,`left`,`bottom`,`right`,`height`,`width`,`maxHeight`,`maxWidth`,`minHeight`,`minWidth`:设置组件上左下右边距和宽高,设置对应值时需要先确定`position`
+
+`position`:设置元素在父元素中的位置.`absolute`(绝对),`relative`(相对,默认值)([Absolute positioning](https://facebook.github.io/yoga/docs/absolute-position/))
+
+`overflow`:`visible`,`hidden`,`scroll`:设置超出组件部分的内容是否隐藏
+
+`zIndex`:设置元素在父视图中的层级位置
+
 
 [CSS3 Flexbox 口诀](http://weibo.com/1712131295/CoRnElNkZ?ref=collection&type=comment#_rnd1488350143824)
 

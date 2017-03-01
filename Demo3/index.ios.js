@@ -63,11 +63,11 @@ export default class Demo3 extends Component {
         <View style = {{flex:1,backgroundColor:'red'}}></View>
         <View style = {{flex:1,backgroundColor:'yellow'}}></View>
         <Text style={[styles.welcome,styles.yellow,styles.red,{flex:1,backgroundColor:'gray'}]}> hello</Text>
-        <Text style = {{fontSize:21,textAlign:'center',backgroundColor:'green'}}>你好{'\n'} hello world</Text>
-        <View style = {{flex:1.5,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
-          <Image source = {image} style = {{height:100,width:200,alignItems:'center',alignSelf:'center'} } />
-          <Greeting name = '张三'/>
-          <Blink text = '走你' />
+        <Text style = {{fontSize:21,textAlign:'center',backgroundColor:'green',borderWidth:2,borderColor:'red'}}>你好{'\n'} hello {`\n`} world</Text>
+        <View style = {{flex:1.5,flexDirection:'row',flexWrap:'wrap',backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
+          <Image source = {image} style = {{height:100,width:200,alignItems:'center',alignSelf:'center',marginLeft:100} } />
+          <Greeting name = '张三============================'/>
+          <Blink text = '走你'/>
         </View>
         <Text style = {{flex:1,backgroundColor:'pink'}}></Text>
       </View>

@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   Image,
+  TextInput,
   View
 } from 'react-native';
 
@@ -45,6 +46,10 @@ class Blink extends Component {
 
 
 export default class Demo3 extends Component {
+  constructor(){
+    super();
+    this.state = {text:''};
+  }
   render() {
     let image = {
       uri:'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
@@ -61,10 +66,30 @@ export default class Demo3 extends Component {
       // </View>
       <View style = {{flex:1,backgroundColor:'#F5FCFF',flexDirection:'column'}}>
         <View style = {{flex:1,backgroundColor:'red'}}></View>
-        <View style = {{flex:1,backgroundColor:'yellow'}}></View>
+        <View style = {{flex:1,backgroundColor:'yellow',justifyContent:'center'}}>
+          <TextInput
+            style = {styles.inputStyle}
+            placeholder='请输入内容'
+            clearTextOnFocus = {true}
+            editable = {true}
+            keyboardType = 'numeric'
+            numeric = {true}
+            onFocus = {
+              (text)=>{
+                console.warn('YellowBox is disabled.');
+                console.warn();
+                console.error();
+              }
+            }
+            onChangeText={(text)=>{
+              this.setState({text:text})
+            }}></TextInput>
+            <Text style = {[styles.welcome,{backgroundColor:'red',margin:10,overflow:'hidden'}]}>{this.state.text}</Text>
+        </View>
         <Text style={[styles.welcome,styles.yellow,styles.red,{flex:1,backgroundColor:'gray'}]}> hello</Text>
         <Text style = {{fontSize:21,textAlign:'center',backgroundColor:'green',borderWidth:2,borderColor:'red'}}>你好{'\n'} hello {`\n`} world</Text>
         <View style = {{flex:1.5,flexDirection:'row',flexWrap:'wrap',backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
+          {/* 使用网络图片必须设置大小 */}
           <Image source = {image} style = {{height:100,width:200,alignItems:'center',alignSelf:'center',marginLeft:100} } />
           <Greeting name = '张三============================'/>
           <Blink text = '走你'/>
@@ -78,7 +103,9 @@ export default class Demo3 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    //主轴对齐方式
     justifyContent: 'center',
+    //次轴对齐方式
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
@@ -98,6 +125,10 @@ const styles = StyleSheet.create({
   },
   yellow:{
     color:'yellow',
+  },
+  inputStyle:{
+    backgroundColor:'gray',
+    height:40,
   },
 });
 

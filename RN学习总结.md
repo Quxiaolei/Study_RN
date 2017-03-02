@@ -1,6 +1,9 @@
 #RN学习总结
 
 ###常见命令:
+
+`react-native init **`
+
 `react-native -help`
 
 `react-native run-ios`
@@ -8,6 +11,10 @@
 `react-native run-android`
 
 `react-native log-ios`
+
+`console.warn();`
+
+`console.error();`
 
 1.`AppRegistry`模块则是用来告知React Native哪一个组件被注册为整个应用的根容器。`AppRegistry.registerComponent`这个方法只会调用一次.
 
@@ -100,7 +107,40 @@ class Greeting extends Component {
 
 `zIndex`:设置元素在父视图中的层级位置
 
-
 [CSS3 Flexbox 口诀](http://weibo.com/1712131295/CoRnElNkZ?ref=collection&type=comment#_rnd1488350143824)
 
 [一个完整的Flexbox指南](http://www.w3cplus.com/css3/a-guide-to-flexbox.html)
+
+5.资源设置
+
+使用图片资源时需要预先知道图片的大小尺寸.(避免加载时界面重新设置图片的闪动)
+
+`Image`对象的属性`source`正确设置方法是传入一个带有`uri`属性的对象.
+
+1.静态资源:
+
+可以引用`my-icon.ios.png`和`my-icon.android.png`,`check@2x.png`和`check@3x.png`格式图片,系统会自动选择相应图片.
+
+可以设置资源的相对位置和绝对位置.
+
+```JavaScript
+//require中的图片名字必须是一个静态字符串
+var icon = this.props.active ? require('./my-icon-active.png') : require('./my-icon-inactive.png');
+<Image source={icon} />
+```
+
+2.网络资源:使用网络图片资源,必须设置图片大小尺寸
+
+```JavaScript
+<Image source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+       style={{width: 400, height: 400}} />
+```
+
+3.使用混合App中的资源:
+
+
+6.`ListView`和`ScrollView`:
+
+`ListView`不是立即渲染所有元素,而是优先渲染屏幕范围内的元素.且元素个数可以增删.
+
+`ListView`必须实现的两个属性:`dataSource`和`renderRow`.

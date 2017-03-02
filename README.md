@@ -110,14 +110,14 @@ render() {
     );
 }
 ```
- 
+
 2.//TODO: bind时this的使用
 
 ---
 ###组件生命周期
 1.创建阶段:
 
-getDefaultProps  [创建类的时候被调用],this.props该组件的默认属性值 
+getDefaultProps  [创建类的时候被调用],this.props该组件的默认属性值
 
 2.实例化阶段，
 
@@ -270,15 +270,16 @@ source:图片的引用地址
 //在render(){}方法中进行判断,根据state中属性值返回不同的界面效果,其外层仍需要单一组件(比如<View> </View>)包裹
 {
 	this.state.isHidden?
-		<View> </View> 
+		<View> </View>
 		: null
 }
 ```
 #####基于不同设备的尺寸获取:
 1.获取当前屏幕的宽高
 ```javascript
-let width = Dimension.get('window').width;
-let height = Dimension.get('window').height;
+// let {height,width} = Dimensions.get('window');
+let width = Dimensions.get('window').width;
+let height = Dimensions.get('window').height;
 ```
 2.设备线宽
 ```javascript

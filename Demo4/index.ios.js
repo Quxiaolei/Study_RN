@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   Image,
+  ListView,
   View
 } from 'react-native';
 
@@ -21,12 +22,43 @@ class CustomLabel extends Component{
   }
 }
 
+class ListViewCell extends Component{
+  // let imageName = require('./Images/blue.png');
+  render(){
+    return(
+      <View style = {styles.cellContainer}>
+        <Image source = {require('./Images/blue.png')} style = {styles.imageStyle}></Image>
+        <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
+        <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
+        <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
+          <Text style={styles.userNanme}>用户名</Text>
+          <Text style={styles.updateTime}>更新时间</Text>
+          <Text style={styles.loveCont}>100</Text>
+        </View>
+      </View>
+    );
+  }
+}
+
 export default class Demo4 extends Component {
+  constructor(props){
+    super(props);
+    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
+    this.state = {
+      dataSource:ds.cloneWithRows(['1','2',`3`,`4`,`5`,`6`,`7`])
+    };
+  }
+
   render() {
-    let imageName = require('./Images/blue.png');
     return (
       <View style={styles.container}>
-        <View style = {styles.cellContainer}>
+        <ListView
+          dataSource = {this.state.dataSource}
+          renderRow = {(rowData)=> <ListViewCell />}
+          //可使用borderBottomWidth实现
+          renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+       />
+        {/* <View style = {styles.cellContainer}>
           <Image source = {imageName} style = {styles.imageStyle}></Image>
           <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
           <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
@@ -35,7 +67,7 @@ export default class Demo4 extends Component {
             <Text style={styles.updateTime}>更新时间</Text>
             <Text style={styles.loveCont}>100</Text>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -49,6 +81,7 @@ const styles = StyleSheet.create({
     //子元素沿着次轴的对齐方式
     // alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    paddingTop:20,
   },
   cellContainer:{
     // flex:1,
@@ -56,6 +89,12 @@ const styles = StyleSheet.create({
     // alignItems:'center',
     // height:100,
     backgroundColor: `gray`,
+    // borderColor:'black',
+    // borderBottomWidth:1,
+  },
+  cellSeparator:{
+    backgroundColor: 'black',
+    height: 0.5,
   },
   imageStyle:{
     alignSelf:'center',

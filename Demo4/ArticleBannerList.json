@@ -1,0 +1,45 @@
+{
+    "sid": "31343B83834234373383530635383D85F64439326716236E383125D6331F343829D3437037392CD6135A373621D3631831646B4306423731335316462B546D573744315F3756536E32383513663F2D63395613502D346C13035A2D61310653882D343B43238261373316137636616D2",
+    "rid": "",
+    "code": "1000",
+    "msg": "",
+    "optype": "File",
+    "bannerList": [
+        {
+            "title": "经典",
+            "bannerImgUrl": "upload/circle/20161202/5c48b252-f3a7-4045-ab3c-5cbe86f8f3ff/5c48b252-f3a7-4045-ab3c-5cbe86f8f3ff",
+            "targetType": 2,
+            "targetInfo": "postId=222&tagId=1"
+        },
+        {
+            "title": "保证你打不开",
+            "bannerImgUrl": "upload/circle/20170228/fb98df3e-bcb7-46d8-b4b4-247ffb88334b/fb98df3e-bcb7-46d8-b4b4-247ffb88334b",
+            "targetType": 1,
+            "targetInfo": "保证你打不开"
+        },
+        {
+            "title": "体验金图片",
+            "bannerImgUrl": "upload/circle/20170213/cc01c0da-39aa-4d55-8e13-c38724aa8e9c/cc01c0da-39aa-4d55-8e13-c38724aa8e9c",
+            "targetType": 1,
+            "targetInfo": "/info/experiencegold/experiencegold.html"
+        },
+        {
+            "title": "体验金活动",
+            "bannerImgUrl": "upload/circle/20170110/42033ab8-fe4c-4a2b-92fe-d9d79c758c96/42033ab8-fe4c-4a2b-92fe-d9d79c758c96",
+            "targetType": 1,
+            "targetInfo": "/info/experiencegold/experiencegold.html"
+        },
+        {
+            "title": "热门直播",
+            "bannerImgUrl": "upload/circle/20161202/2733c41e-e3d9-400c-bdfb-8499b741456f/2733c41e-e3d9-400c-bdfb-8499b741456f",
+            "targetType": 2,
+            "targetInfo": "postId=270&tagId=1"
+        },
+        {
+            "title": "操作指引，学习使用App",
+            "bannerImgUrl": "upload/circle/20170112/fcf5495a-a077-4c43-895f-0229275644df/fcf5495a-a077-4c43-895f-0229275644df",
+            "targetType": 1,
+            "targetInfo": "/info/gjdt/gjdt_guide.html"
+        }
+    ]
+}

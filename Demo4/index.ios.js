@@ -12,7 +12,6 @@ import {
   Image,
   ListView,
   Dimensions,
-  Date,
   View
 } from 'react-native';
 
@@ -40,17 +39,31 @@ class ListViewCell extends Component{
     let image = {
       uri:HostApi+rowData.coverImgURL
     };
-    // TODO: 获取当前时间,将时间戳转为时间格式
-    // TODO: 完善圈子功能
+    let postTime = new Date();
+    postTime.setTime(rowData.postTime);
+    // console.warn(postTime);
+    //如果图片资源地址不可用时,显示默认占位图
+    let headImage = require('./Images/默认头像灰.png');
+    if(rowData.authorInfo.photoURL){
+      headImage = {
+        uri:HostApi+rowData.authorInfo.photoURL
+      }
+    }
     return(
       <View style = {styles.cellContainer}>
         <Image source = {image} style = {styles.imageStyle}></Image>
+        {/* 标签 */}
         <CustomLabel style ={{fontSize:15,color: 'gray',textAlign:'left',marginLeft:10}} content = {tagListArray[0].tagName}/>
-        {/* FIXME: numberOfLines不可用 */}
-        <Text style = {{fontSize:18,color:'brown',marginVertical:5,marginLeft:10}}>{rowData.title}</Text>
+        {/* 标题 */}
+        <Text numberOfLines ={2} style = {{fontSize:18,color:'brown',marginVertical:5,marginLeft:10}}>{rowData.title}</Text>
         <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
+          {/* 头像 */}
+          <Image source = {headImage} style = {{marginBottom:5,marginLeft:10,alignSelf:'center',width:10,height:10}}/>
+          {/* 用户名 */}
           <Text style={styles.userNanme}>{rowData.authorInfo.nickName}</Text>
-          <Text style={styles.updateTime}>{rowData.postTime}</Text>
+          {/* 发送时间 */}
+          <Text style={styles.updateTime}>{postTime.toLocaleString()}</Text>
+          {/* 点赞数 */}
           <Text style={styles.loveCont}>{rowData.thumbNumber}</Text>
         </View>
       </View>
@@ -101,7 +114,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     //子元素沿着次轴的对齐方式
     // alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    overflow:'hidden',
     paddingTop:20,
   },
   cellContainer:{
@@ -109,7 +123,7 @@ const styles = StyleSheet.create({
     // justifyContent:'center',
     // alignItems:'center',
     // height:100,
-    backgroundColor: `#FFFFFF`,
+    // backgroundColor: `#F5FCFF`,
     // borderColor:'black',
     // borderBottomWidth:1,
   },

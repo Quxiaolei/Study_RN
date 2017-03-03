@@ -15,94 +15,53 @@ import {
   View
 } from 'react-native';
 
-let {height,width} = Dimensions.get('window');
-let HostApi =
-// 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg';
-'http://172.16.101.202/';
-class CustomLabel extends Component{
-  render(){
-    return(
-      <Text style = {this.props.style}>{this.props.content}</Text>
-  );
-  }
-}
+import TabNavigator from 'react-native-tab-navigator';
 
-class ListViewCell extends Component{
-  //QUESTION 为什么不能设置变量呢?
-  // let imageName = require('./Images/blue.png');
-  constructor(){
-    super();
-  }
-  render(){
-    let rowData = this.props.currentRowData;
-    let tagListArray = rowData.tagList;
-    let image = {
-      uri:HostApi+rowData.coverImgURL
-    };
-    let postTime = new Date();
-    postTime.setTime(rowData.postTime);
-    // console.warn(postTime);
-    //如果图片资源地址不可用时,显示默认占位图
-    let headImage = require('./Images/默认头像灰.png');
-    if(rowData.authorInfo.photoURL){
-      headImage = {
-        uri:HostApi+rowData.authorInfo.photoURL
-      }
-    }
-    return(
-      <View style = {styles.cellContainer}>
-        <Image source = {image} style = {styles.imageStyle}></Image>
-        {/* 标签 */}
-        <CustomLabel style ={{fontSize:15,color: 'gray',textAlign:'left',marginLeft:10}} content = {tagListArray[0].tagName}/>
-        {/* 标题 */}
-        <Text numberOfLines ={2} style = {{fontSize:18,color:'brown',marginVertical:5,marginLeft:10}}>{rowData.title}</Text>
-        <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
-          {/* 头像 */}
-          <Image source = {headImage} style = {{marginBottom:5,marginLeft:10,alignSelf:'center',width:10,height:10}}/>
-          {/* 用户名 */}
-          <Text style={styles.userNanme}>{rowData.authorInfo.nickName}</Text>
-          {/* 发送时间 */}
-          <Text style={styles.updateTime}>{postTime.toLocaleString()}</Text>
-          {/* 点赞数 */}
-          <Text style={styles.loveCont}>{rowData.thumbNumber}</Text>
-        </View>
-      </View>
-    );
-  }
-}
+import ArticleList from './Container/ArticleList';
+import Majordomo from './Container/Majordomo';
+import Mine from './Container/Mine';
+let {height,width} = Dimensions.get('window');
 
 export default class Demo4 extends Component {
   constructor(props){
     super(props);
-    let ArticleListJSON = require('./ArticleList.json');
-    let ArticleListArray = ArticleListJSON.postListPerPage.postList;
-    // console.warn('数组长度:'+ArticleListArray.length);
-    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
     this.state = {
-      dataSource:ds.cloneWithRows(ArticleListArray)
+      selectedTab:'article'
     };
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <ListView
-          dataSource = {this.state.dataSource}
-          renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
-          //可使用borderBottomWidth实现
-          renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
-       />
-        {/* <View style = {styles.cellContainer}>
-          <Image source = {imageName} style = {styles.imageStyle}></Image>
-          <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
-          <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
-          <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
-            <Text style={styles.userNanme}>用户名</Text>
-            <Text style={styles.updateTime}>更新时间</Text>
-            <Text style={styles.loveCont}>100</Text>
-          </View>
-        </View> */}
-      </View>
+      <TabNavigator>
+        <TabNavigator.Item
+          selected = {this.state.selectedTab === 'home'}
+          title = '财富管家'
+          renderIcon = {()=> <Image source = {require('./Images/Tabbar/投资管家.png')} />}
+          renderSelectedIcon = {()=><Image source= {require('./Images/Tabbar/投资管家_selected.png')}/>}
+          onPress = {()=>this.setState({selectedTab:'home'})}
+          badgeText = '1'
+          >
+            <ArticleList />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          selected = {this.state.selectedTab === 'article'}
+          title = '投资圈'
+          renderIcon = {() => <Image source = {require('./Images/Tabbar/财富圈.png')}/>}
+          renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
+          onPress = {()=>this.setState({selectedTab:'article'})}
+          >
+            <Majordomo />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          selected = {this.state.selectedTab === 'mine'}
+          title = '我的'
+          renderIcon = {() =><Image  source = {require('./Images/Tabbar/我的.png')}/>}
+          renderSelectedIcon = {() =><Image  source = {require('./Images/Tabbar/我的_selected.png')}/>}
+          onPress = {()=>this.setState({selectedTab:'mine'})}
+          >
+            <Mine />
+        </TabNavigator.Item>
+      </TabNavigator>
     );
   }
 }

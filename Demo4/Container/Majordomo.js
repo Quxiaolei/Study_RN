@@ -6,98 +6,85 @@ import {
   Image,
   ListView,
   Dimensions,
+  Navigator,
+  TouchableHighlight,
   View
 } from 'react-native';
 
 let {height,width} = Dimensions.get('window');
-let HostApi =
-// 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg';
-'http://172.16.101.202/';
-class CustomLabel extends Component{
-  render(){
-    return(
-      <Text style = {this.props.style}>{this.props.content}</Text>
-  );
-  }
-}
 
-class ListViewCell extends Component{
-  //QUESTION 为什么不能设置变量呢?
-  // let imageName = require('./Images/blue.png');
-  constructor(){
-    super();
-  }
-  render(){
-    let rowData = this.props.currentRowData;
-    let tagListArray = rowData.tagList;
-    let image = {
-      uri:HostApi+rowData.coverImgURL
-    };
-    let postTime = new Date();
-    postTime.setTime(rowData.postTime);
-    // console.warn(postTime);
-    //如果图片资源地址不可用时,显示默认占位图
-    let headImage = require('../Images/默认头像灰.png');
-    if(rowData.authorInfo.photoURL){
-      headImage = {
-        uri:HostApi+rowData.authorInfo.photoURL
-      }
-    }
-    return(
-      <View style = {styles.cellContainer}>
-        <Image source = {image} style = {styles.imageStyle}></Image>
-        {/* 标签 */}
-        <CustomLabel style ={{fontSize:15,color: 'gray',textAlign:'left',marginLeft:10}} content = {tagListArray[0].tagName}/>
-        {/* 标题 */}
-        <Text numberOfLines ={2} style = {{fontSize:18,color:'brown',marginVertical:5,marginLeft:10}}>{rowData.title}</Text>
-        <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
-          {/* 头像 */}
-          <Image source = {headImage} style = {{marginBottom:5,marginLeft:10,alignSelf:'center',width:10,height:10}}/>
-          {/* 用户名 */}
-          <Text style={styles.userNanme}>{rowData.authorInfo.nickName}</Text>
-          {/* 发送时间 */}
-          <Text style={styles.updateTime}>{postTime.toLocaleString()}</Text>
-          {/* 点赞数 */}
-          <Text style={styles.loveCont}>{rowData.thumbNumber}</Text>
-        </View>
-      </View>
-    );
-  }
-}
+import ArticleList from './ArticleList';
 
 export default class Majordomo extends Component {
   constructor(props){
     super(props);
-    let ArticleListJSON = require('./ArticleList.json');
-    let ArticleListArray = ArticleListJSON.postListPerPage.postList;
-    // console.warn('数组长度:'+ArticleListArray.length);
-    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
-    this.state = {
-      dataSource:ds.cloneWithRows(ArticleListArray)
-    };
   }
 
   render() {
+    let defaultComponent = ArticleList;
+    let nextComponent = ArticleList;
+    const routes = [{title:'First Scene',index:0,component:defaultComponent},{title:'Second Scene',index:1,component:nextComponent}];
+
     return (
-      <View style={styles.container}>
-        <ListView
-          dataSource = {this.state.dataSource}
-          renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
-          //可使用borderBottomWidth实现
-          renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
-       />
-        {/* <View style = {styles.cellContainer}>
-          <Image source = {imageName} style = {styles.imageStyle}></Image>
-          <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
-          <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
-          <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
-            <Text style={styles.userNanme}>用户名</Text>
-            <Text style={styles.updateTime}>更新时间</Text>
-            <Text style={styles.loveCont}>100</Text>
-          </View>
-        </View> */}
-      </View>
+      // FIXME: navigator标题高度设置问题
+      <Navigator
+        initialRoute = {routes[0]}
+        initilaRouteStack = {routes}
+        configureScene = {(route) =>{
+          return Navigator.SceneConfigs.VerticalDownSwipeJump;
+        } }
+        renderScene = {(route, navigator)=>{
+          let Component = route.component;
+          return <Component {...route.params} navigator= {navigator} />
+          // <TouchableHighlight onPress ={()=>{
+          //   if(route.index ===0){
+          //     navigator.push(routes[1]);
+          //   }else{
+          //     navigator.pop();
+          //   }
+          // }}>
+          //   <Text>hah {route.title}!</Text>
+          // </TouchableHighlight>
+        }
+        }
+        navigationBar = {
+          <Navigator.NavigationBar
+           routeMapper = {{
+             LeftButton :(route,navigator,index,navState)=>{
+               return (<Text style = {styles.navigationBarTitle}>Back</Text>);
+             },
+             RightButton:(route,navigator,index,navState)=>{
+               return (<Text style = {styles.navigationBarTitle}>Detail</Text>);
+            },
+            Title:(route,navigator,index,navState)=>{
+              return (<Text style = {{backgroundColor:'red'}}>Nav Bar Title</Text>);
+            },
+           }}
+          style={styles.navigationBar}/>
+        }
+        style={{padding: 100,backgroundColor:'white'}}
+      />
     );
+    // return (
+    //   <View style={styles.container}>
+    //     <ListView
+    //       dataSource = {this.state.dataSource}
+    //       renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
+    //       //可使用borderBottomWidth实现
+    //       renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+    //    />
+    //     {/* <View style = {styles.cellContainer}>
+    //       <Image source = {imageName} style = {styles.imageStyle}></Image>
+    //       <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
+    //       <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
+    //       <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
+    //         <Text style={styles.userNanme}>用户名</Text>
+    //         <Text style={styles.updateTime}>更新时间</Text>
+    //         <Text style={styles.loveCont}>100</Text>
+    //       </View>
+    //     </View> */}
+    //   </View>
+    // );
   }
 }
 
@@ -112,18 +99,20 @@ const styles = StyleSheet.create({
     overflow:'hidden',
     paddingTop:20,
   },
-  cellContainer:{
-    // flex:1,
-    // justifyContent:'center',
-    // alignItems:'center',
-    // height:100,
-    // backgroundColor: `#F5FCFF`,
+  navigationBar:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    height:44,
+    backgroundColor: `lightgray`,
     // borderColor:'black',
-    // borderBottomWidth:1,
+    marginTop:20,
   },
-  cellSeparator:{
-    backgroundColor: 'black',
-    height: 0.5,
+  navigationBarTitle:{
+    textAlign:'center',
+    backgroundColor: 'red',
+    // height: 44,
+    // marginTop:-10,
   },
   imageStyle:{
     alignSelf:'center',

@@ -29,7 +29,12 @@ export default class Demo4 extends Component {
       selectedTab:'article'
     };
   }
-
+  //隐藏Tabbar
+  // let tabBarHeight = 0;
+  // <TabNavigator
+  //   tabBarStyle={{ height: tabBarHeight, overflow: 'hidden' }}
+  //   sceneStyle={{ paddingBottom: tabBarHeight }}
+  // />
   render() {
     return (
       <TabNavigator>
@@ -41,7 +46,7 @@ export default class Demo4 extends Component {
           onPress = {()=>this.setState({selectedTab:'home'})}
           badgeText = '1'
           >
-            <ArticleList />
+            <Majordomo />
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'article'}
@@ -50,7 +55,7 @@ export default class Demo4 extends Component {
           renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
           onPress = {()=>this.setState({selectedTab:'article'})}
           >
-            <Majordomo />
+            <ArticleList />
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'mine'}

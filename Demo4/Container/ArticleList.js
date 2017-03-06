@@ -6,6 +6,7 @@ import {
   Image,
   ListView,
   Dimensions,
+  Navigator,
   View
 } from 'react-native';
 
@@ -79,6 +80,13 @@ export default class ArticleList extends Component {
 
   render() {
     return (
+      // <Navigator
+      //   initialRoute = {{title:'圈子',index:0}}
+      //   renderScene = {(route, navigator)=>
+      //     <Text>hah {route.title}!</Text>
+      //   }
+      //   style={{padding: 100}}
+      // />
       <View style={styles.container}>
         <ListView
           dataSource = {this.state.dataSource}

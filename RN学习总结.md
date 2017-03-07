@@ -139,8 +139,18 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 3.使用混合App中的资源:
 
 
-6.`ListView`和`ScrollView`:
+6.`ScrollView`:是个通用的可滚动容器,其内可以放入多种不同的组件和视图.
 
-`ListView`不是立即渲染所有元素,而是优先渲染屏幕范围内的元素.且元素个数可以增删.
+`Scrollview`组件实质上是把不确定高度的子组件放在确定高度的容器中,所以必须有一个确定的高度.
 
-`ListView`必须实现的两个属性:`dataSource`和`renderRow`.
+`ScrollView`中所有的组件都会被渲染,不考虑组件的重用.适合短列表数据展示.
+
+`contentContainerStyle`:
+
+7.`ListView`:
+
+`ListView`不是立即渲染所有元素,而是优先渲染屏幕范围内的元素.且元素个数可以增删.适合长列表数据.
+
+`ListView`必须实现的两个属性:`dataSource`(数据源)和`renderRow`(渲染某行的组件).
+
+`rowHasChanged`:

@@ -7,6 +7,7 @@ import {
   ListView,
   Dimensions,
   Navigator,
+  ScrollView,
   View
 } from 'react-native';
 
@@ -19,6 +20,24 @@ class CustomLabel extends Component{
     return(
       <Text style = {this.props.style}>{this.props.content}</Text>
   );
+  }
+}
+
+class ScrollViewContent extends Component{
+  render(){
+    let bannerTitle = this.props.bannerInfo.title;
+    let bannerImage = this.props.bannerInfo.bannerImgUrl;
+    let image = {
+      uri:HostApi+bannerImage
+    }
+    // require('../Images/blue.png');
+    return (
+      <View>
+        <Image source = {image} style = {{flex:1,flexDirection:'column-reverse',width:width-20,margin:10}}>
+          <Text style= {{fontSize:16,color:'white',marginBottom:10,marginLeft:10,backgroundColor:'rgba(100, 100, 100, 0.00001)'}}>{bannerTitle}</Text>
+        </Image>
+      </View>
+    );
   }
 }
 
@@ -74,12 +93,62 @@ export default class ArticleList extends Component {
     // console.warn('数组长度:'+ArticleListArray.length);
     const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
     this.state = {
-      dataSource:ds.cloneWithRows(ArticleListArray)
+      dataSource:ds.cloneWithRows(ArticleListArray),
+      scrollViewIndex:0
     };
+    // console.warn(height);
+    setInterval(()=>{
+      let i = (++this.state.scrollViewIndex)%4;
+      // console.warn(i);
+      this.setState({scrollViewIndex:i});
+      //滚动到指定的x, y偏移处
+      _scrollView.scrollTo({x:width*i,y:0,animated:true});
+      // _scrollView.scrollToEnd({animated:false});
+    },3000);
+
+  }
+  componentWillUnmoont(){
+    clearInterval();
   }
 
   render() {
+    let BannerListJSON = require('./ArticleBannerList.json');
+    let BannerListArray = BannerListJSON.bannerList;
     return (
+      <View>
+        <ScrollView
+          ref ={(scrollView)=>{ _scrollView = scrollView;}}
+          style = {styles.scrollViewContainer}
+          // contentContainerStyle =
+          horizontal = {true}
+          showsHorizontalScrollIndicator = {false}
+          pagingEnabled = {true}
+          // scrollEnabled = {true}
+          automaticallyAdjustContentInsets = {true}
+          onScroll = {()=>{
+            // console.warn('hha ');
+          }}
+          onContentSizeChange = {(contentWidth,contentHeight)=>{
+            // console.warn(contentWidth+','+contentHeight);
+          }}
+          >
+            {/* // FIXME: 当需求是不确定banner个数时如何处理 */}
+            {/* for (let bannerInfo1 in BannerListArray) {
+              <ScrollViewContent bannerInfo = {bannerInfo1}/>
+            } */}
+            <ScrollViewContent bannerInfo = {BannerListArray[0]}/>
+            <ScrollViewContent bannerInfo = {BannerListArray[1]}/>
+            <ScrollViewContent bannerInfo = {BannerListArray[2]}/>
+            <ScrollViewContent bannerInfo = {BannerListArray[3]}/>
+        </ScrollView>
+        <ListView
+          dataSource = {this.state.dataSource}
+          renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
+          //可使用borderBottomWidth实现
+          renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+       />
+      </View>
+
       // <Navigator
       //   initialRoute = {{title:'圈子',index:0}}
       //   renderScene = {(route, navigator)=>
@@ -87,24 +156,25 @@ export default class ArticleList extends Component {
       //   }
       //   style={{padding: 100}}
       // />
-      <View style={styles.container}>
-        <ListView
-          dataSource = {this.state.dataSource}
-          renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
-          //可使用borderBottomWidth实现
-          renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
-       />
-        {/* <View style = {styles.cellContainer}>
-          <Image source = {imageName} style = {styles.imageStyle}></Image>
-          <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
-          <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
-          <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
-            <Text style={styles.userNanme}>用户名</Text>
-            <Text style={styles.updateTime}>更新时间</Text>
-            <Text style={styles.loveCont}>100</Text>
-          </View>
-        </View> */}
-      </View>
+      // <View style={styles.container}>
+      //   <ListView
+      //     dataSource = {this.state.dataSource}
+      //     renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
+      //     renderScrollComponent = {()=>}
+      //     //可使用borderBottomWidth实现
+      //     renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+      //  />
+      //   {/* <View style = {styles.cellContainer}>
+      //     <Image source = {imageName} style = {styles.imageStyle}></Image>
+      //     <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
+      //     <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
+      //     <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
+      //       <Text style={styles.userNanme}>用户名</Text>
+      //       <Text style={styles.updateTime}>更新时间</Text>
+      //       <Text style={styles.loveCont}>100</Text>
+      //     </View>
+      //   </View> */}
+      // </View>
     );
   }
 }
@@ -119,6 +189,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     overflow:'hidden',
     paddingTop:20,
+  },
+  scrollViewContainer:{
+    marginTop:20,
+    height:280,
+    backgroundColor:'lightgray',
   },
   cellContainer:{
     // flex:1,

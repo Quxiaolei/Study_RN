@@ -90,15 +90,18 @@ export default class ArticleList extends Component {
     super(props);
     let ArticleListJSON = require('./ArticleList.json');
     let ArticleListArray = ArticleListJSON.postListPerPage.postList;
+    let BannerListJSON = require('./ArticleBannerList.json');
+    let BannerListArray = BannerListJSON.bannerList;
     // console.warn('数组长度:'+ArticleListArray.length);
     const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
     this.state = {
       dataSource:ds.cloneWithRows(ArticleListArray),
-      scrollViewIndex:0
+      scrollViewIndex:0,
+      bannerDataSource:BannerListArray,
     };
     // console.warn(height);
     setInterval(()=>{
-      let i = (++this.state.scrollViewIndex)%4;
+      let i = (++this.state.scrollViewIndex)%BannerListArray.length;
       // console.warn(i);
       this.setState({scrollViewIndex:i});
       //滚动到指定的x, y偏移处
@@ -112,11 +115,10 @@ export default class ArticleList extends Component {
   }
 
   render() {
-    let BannerListJSON = require('./ArticleBannerList.json');
-    let BannerListArray = BannerListJSON.bannerList;
     return (
       <View>
         <ScrollView
+          // QUESTION: ref相关,_scrollView怎么不用定义
           ref ={(scrollView)=>{ _scrollView = scrollView;}}
           style = {styles.scrollViewContainer}
           // contentContainerStyle =
@@ -132,14 +134,18 @@ export default class ArticleList extends Component {
             // console.warn(contentWidth+','+contentHeight);
           }}
           >
-            {/* // FIXME: 当需求是不确定banner个数时如何处理 */}
-            {/* for (let bannerInfo1 in BannerListArray) {
-              <ScrollViewContent bannerInfo = {bannerInfo1}/>
-            } */}
+            {
+              //遍历数组,设置控件
+              this.state.bannerDataSource.map((bannerInfo,i)=>
+                // console.warn(bannerInfo.title);
+                <ScrollViewContent key={i} bannerInfo = {bannerInfo} />
+              )
+            }
+            {/* //普通的设置方法
             <ScrollViewContent bannerInfo = {BannerListArray[0]}/>
             <ScrollViewContent bannerInfo = {BannerListArray[1]}/>
             <ScrollViewContent bannerInfo = {BannerListArray[2]}/>
-            <ScrollViewContent bannerInfo = {BannerListArray[3]}/>
+            <ScrollViewContent bannerInfo = {BannerListArray[3]}/> */}
         </ScrollView>
         <ListView
           dataSource = {this.state.dataSource}

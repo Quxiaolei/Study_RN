@@ -63,7 +63,7 @@ lineLeftRight:{
 1.调用bind方法时,需要设定作用域,传递该传递的参数.默认会传递this参数
 
 ```
-//{()=>}	larmart语法
+//{()=>}	lambda语法
 ```
 //this所指的就是直至包含this指针的上层对象
 

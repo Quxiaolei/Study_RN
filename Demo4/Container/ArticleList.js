@@ -8,6 +8,7 @@ import {
   Dimensions,
   Navigator,
   ScrollView,
+  ActivityIndicator,
   View
 } from 'react-native';
 
@@ -178,8 +179,20 @@ export default class ArticleList extends Component {
   }
 
   render() {
+    //设置state时,会重新渲染一次组件
     if(!this.state.bannerDataSource || !this.state.dataSource || this.state.dataSource.length <1){
-      return <View style = {{backgroundColor:'red',width:100,height:100}}></View>;
+      return (
+        <View style = {{flex:1,'justifyContent':'center'}}>
+          <ActivityIndicator
+            animating = {true}
+            size = 'large'>
+          </ActivityIndicator>
+        </View>
+
+        // {/* <View style = {{backgroundColor:'red',alignSelf:'center',width:100,height:100}}>
+        //   <Text>loading message</Text>
+        // </View> */}
+      );
     }
     return (
       <View>

@@ -6,6 +6,7 @@ import {
   Image,
   ListView,
   Dimensions,
+  Platform,
   View
 } from 'react-native';
 
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     backgroundColor: '#FFFFFF',
     overflow:'hidden',
-    paddingTop:20,
+    paddingTop:Platform.OS === 'android'?0:20,
   },
   cellContainer:{
     // flex:1,

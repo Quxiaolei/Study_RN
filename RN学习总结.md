@@ -154,3 +154,11 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 `ListView`必须实现的两个属性:`dataSource`(数据源)和`renderRow`(渲染某行的组件).
 
 `rowHasChanged`:
+
+
+`Platform`:
+
+```javascript
+//判断平台的系统
+Platform.OS === 'android'
+```

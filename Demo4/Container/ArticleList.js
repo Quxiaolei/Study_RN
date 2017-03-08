@@ -9,6 +9,7 @@ import {
   Navigator,
   ScrollView,
   ActivityIndicator,
+  Platform,
   View
 } from 'react-native';
 
@@ -154,7 +155,7 @@ export default class ArticleList extends Component {
     .then(response=>response.json())
     .then(responseJson=>{
       // FIXME: 为什么每次请求的数据都只有一条,且还是占位脏数据
-      console.warn('文章条数:'+responseJson.postListPerPage.postList.length);
+      // console.warn('文章条数:'+responseJson.postListPerPage.postList.length);
       // console.warn('文章标题:'+responseJson.postListPerPage.postList[0].title);
       let ArticleListJSON = require('./ArticleList.json');
       let ArticleListArray = ArticleListJSON.postListPerPage.postList;
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     paddingTop:20,
   },
   scrollViewContainer:{
-    marginTop:20,
+    marginTop:Platform.OS === 'android'?0:20,
     height:280,
     backgroundColor:'lightgray',
   },

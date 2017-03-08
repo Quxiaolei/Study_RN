@@ -8,6 +8,7 @@ import {
   Dimensions,
   Navigator,
   TouchableHighlight,
+  Platform,
   View
 } from 'react-native';
 
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     height:44,
     backgroundColor: `lightgray`,
     // borderColor:'black',
-    marginTop:20,
+    marginTop:Platform.OS === 'android'?0:20,
   },
   navigationBarTitle:{
     textAlign:'center',

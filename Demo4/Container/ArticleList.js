@@ -183,10 +183,8 @@ export default class ArticleList extends Component {
     if(!this.state.bannerDataSource || !this.state.dataSource || this.state.dataSource.length <1){
       return (
         <View style = {{flex:1,'justifyContent':'center'}}>
-          <ActivityIndicator
-            animating = {true}
-            size = 'large'>
-          </ActivityIndicator>
+          <ActivityIndicator animating = {true} size = 'large'/>
+          <Text style = {{textAlign:'center',color:'gray'}}>Loading...</Text>
         </View>
 
         // {/* <View style = {{backgroundColor:'red',alignSelf:'center',width:100,height:100}}>

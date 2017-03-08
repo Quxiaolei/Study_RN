@@ -339,6 +339,12 @@ fetch(url, fetchOptions)
 
 ```react-native run-ios```
 
+```npm install```:安装工程目录下的包依赖
+
+`package.json`类似于cocoaPods中的Podfile
+
+([React Native Package Manager包管理器介绍](http://blog.csdn.net/offbye/article/details/51586273))
+
 2.打包发布
 
 ---

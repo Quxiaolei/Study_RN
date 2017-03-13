@@ -9,45 +9,59 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  Image,
+  ListView,
+  Dimensions,
   View
 } from 'react-native';
 
+import TabNavigator from 'react-native-tab-navigator';
+
+import ArticleList from './Container/ArticleList';
+import Majordomo from './Container/Majordomo';
+import Mine from './Container/Mine';
+let {height,width} = Dimensions.get('window');
+
 export default class Demo4 extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      selectedTab:'article'
+    };
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <TabNavigator>
+        <TabNavigator.Item
+          selected = {this.state.selectedTab === 'home'}
+          title = '财富管家'
+          renderIcon = {()=> <Image source = {require('./Images/Tabbar/投资管家.png')} />}
+          renderSelectedIcon = {()=><Image source= {require('./Images/Tabbar/投资管家_selected.png')}/>}
+          onPress = {()=>this.setState({selectedTab:'home'})}
+          badgeText = '1'
+          >
+            <Majordomo />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          selected = {this.state.selectedTab === 'article'}
+          title = '投资圈'
+          renderIcon = {() => <Image source = {require('./Images/Tabbar/财富圈.png')}/>}
+          renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
+          onPress = {()=>this.setState({selectedTab:'article'})}
+          >
+            <ArticleList />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          selected = {this.state.selectedTab === 'mine'}
+          title = '我的'
+          renderIcon = {() =><Image  source = {require('./Images/Tabbar/我的.png')}/>}
+          renderSelectedIcon = {() =><Image  source = {require('./Images/Tabbar/我的_selected.png')}/>}
+          onPress = {()=>this.setState({selectedTab:'mine'})}
+          >
+            <Mine />
+        </TabNavigator.Item>
+      </TabNavigator>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
 AppRegistry.registerComponent('Demo4', () => Demo4);

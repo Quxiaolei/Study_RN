@@ -63,7 +63,7 @@ export default class Majordomo extends Component {
            }}
           style={styles.navigationBar}/>
         }
-        style={{padding: 100,backgroundColor:'white'}}
+        style={{backgroundColor:'white'}}
       />
     );
     // return (

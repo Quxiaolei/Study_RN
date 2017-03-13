@@ -194,7 +194,7 @@ export default class ArticleList extends Component {
       );
     }
     return (
-      <View>
+      <View style ={styles.container}>
         <ScrollView
           // QUESTION: ref相关,_scrollView怎么不用定义
           ref ={(scrollView)=>{ _scrollView = scrollView;}}
@@ -273,10 +273,10 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     backgroundColor: '#FFFFFF',
     overflow:'hidden',
-    paddingTop:20,
+    marginTop:64,
   },
   scrollViewContainer:{
-    marginTop:Platform.OS === 'android'?0:20,
+    // marginTop:Platform.OS === 'android'?0:20,
     height:280,
     backgroundColor:'lightgray',
   },

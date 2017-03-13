@@ -17,7 +17,8 @@ import {
 
 import TabNavigator from 'react-native-tab-navigator';
 
-import Article from './Container/Article';
+// import Article from './Container/Article';
+import ArticleList from './Container/ArticleList';
 import Majordomo from './Container/Majordomo';
 import Mine from './Container/Mine';
 let {height,width} = Dimensions.get('window');
@@ -55,7 +56,7 @@ export default class Demo4 extends Component {
           renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
           onPress = {()=>this.setState({selectedTab:'article'})}
           >
-            <Article />
+            <ArticleList />
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'mine'}

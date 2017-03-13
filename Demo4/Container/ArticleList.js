@@ -7,13 +7,17 @@ import {
   ListView,
   Dimensions,
   Navigator,
+  NavigatorIOS,
   ScrollView,
   ActivityIndicator,
   Platform,
+  TouchableOpacity,
   View
 } from 'react-native';
 
+import ArticleDetail from './ArticleDetail';
 let {height,width} = Dimensions.get('window');
+
 let HostApi =
 // 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg';
 'http://172.16.101.202/';
@@ -21,6 +25,7 @@ let HostApi =
 let BannerListApi = HostApi+'play/circle/getBannerList4C';
 //http://172.16.101.202/play/circle/getPostList4C
 let ArticleListApi = HostApi+'play/circle/getPostList4C';
+
 class CustomLabel extends Component{
   render(){
     return(
@@ -48,11 +53,30 @@ class ScrollViewContent extends Component{
 }
 
 class ListViewCell extends Component{
-  //QUESTION 为什么不能设置变量呢?
-  // let imageName = require('./Images/blue.png');
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    // console.warn('cell---->selection:'+this.props.selectionID+' row:'+this.props.rowID);
   }
+
+  _ListViewCellClicked(postId:string){
+    // console.warn('clicked rowID:'+this.props.rowID);
+    // console.warn('navigator:'+this.props.navigator);
+    // console.warn(postId);
+    this.props.navigator.push({
+      // leftButtonTitle:'back',
+      leftButtonIcon:require('../Images/nav_back.png'),
+      onLeftButtonPress:()=>this.props.navigator.pop(),
+      component:ArticleDetail,
+      title:'帖子详情',
+      // barTintColor: '#996699',
+      translucent:true,
+      passProps:{
+        text:'这是从帖子界面获取到的文本',
+        postId:postId,
+      },
+    });
+  }
+
   render(){
     let rowData = this.props.currentRowData;
     let tagListArray = rowData.tagList;
@@ -69,7 +93,10 @@ class ListViewCell extends Component{
         uri:HostApi+rowData.authorInfo.photoURL
       }
     }
+
     return(
+      <TouchableOpacity
+        onPress = {()=>this._ListViewCellClicked(rowData.postId)}>
       <View style = {styles.cellContainer}>
         <Image source = {image} style = {styles.imageStyle}></Image>
         {/* 标签 */}
@@ -87,11 +114,12 @@ class ListViewCell extends Component{
           <Text style={styles.loveCont}>{rowData.thumbNumber}</Text>
         </View>
       </View>
+      </TouchableOpacity>
     );
   }
 }
 
-export default class ArticleList extends Component {
+class ArticleListView extends Component {
   constructor(props){
     super(props);
     // let ArticleListJSON = require('./ArticleList.json');
@@ -180,6 +208,7 @@ export default class ArticleList extends Component {
   }
 
   render() {
+    // console.warn('title:'+this.props.navigator);
     //设置state时,会重新渲染一次组件
     if(!this.state.bannerDataSource || !this.state.dataSource || this.state.dataSource.length <1){
       return (
@@ -228,11 +257,144 @@ export default class ArticleList extends Component {
         </ScrollView>
         <ListView
           dataSource = {this.state.dataSource}
-          renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
+          renderRow = {(rowData,selection,row)=> {
+            // console.warn('selection:'+selection+' row:'+row);
+            return <ListViewCell currentRowData = {rowData} selectionID = {selection} rowID ={row} navigator = {this.props.navigator}/>}}
           //可使用borderBottomWidth实现
           renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
        />
       </View>
+
+      // <Navigator
+      //   initialRoute = {{title:'圈子',index:0}}
+      //   renderScene = {(route, navigator)=>
+      //     <Text>hah {route.title}!</Text>
+      //   }
+      //   style={{padding: 100}}
+      // />
+      // <View style={styles.container}>
+      //   <ListView
+      //     dataSource = {this.state.dataSource}
+      //     renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
+      //     renderScrollComponent = {()=>}
+      //     //可使用borderBottomWidth实现
+      //     renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+      //  />
+      //   {/* <View style = {styles.cellContainer}>
+      //     <Image source = {imageName} style = {styles.imageStyle}></Image>
+      //     <CustomLabel style ={{fontSize:15,color: 'white',textAlign:'left',marginLeft:10}} content = '投资策略'/>
+      //     <Text style = {{fontSize:20,color:'brown',marginVertical:5,marginLeft:10}}>文章标题</Text>
+      //     <View style = {{flexDirection:'row',justifyContent:'space-between'}}>
+      //       <Text style={styles.userNanme}>用户名</Text>
+      //       <Text style={styles.updateTime}>更新时间</Text>
+      //       <Text style={styles.loveCont}>100</Text>
+      //     </View>
+      //   </View> */}
+      // </View>
+    );
+  }
+}
+
+export default class ArticleList extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+    };
+  }
+
+  componentDidMount(){
+  }
+
+  componentWillUnmoont(){
+    clearInterval();
+  }
+
+  _GoToArticleDetail(){
+    // console.warn('帖子详情');
+    // TODO: 隐藏tabbar
+    this.refs.nav.push({
+      // leftButtonTitle:'back',
+      leftButtonIcon:require('../Images/nav_back.png'),
+      onLeftButtonPress:()=>this.refs.nav.pop(),
+      component:ArticleDetail,
+      title:'帖子详情',
+      // barTintColor: '#996699',
+      translucent:true,
+      passProps:{
+        text:'这是从帖子界面获取到的文本',
+      },
+    });
+  }
+
+  render() {
+    let defaultComponent = ArticleListView;
+    let defaultName = 'ArticleList';
+    return (
+      // <Navigator
+      //   initialRoute = {{component:ArticleList,name:defaultName,index:0}}
+      //   renderScene = {(route,navigator)=>{
+      //     let Component = route.component;
+      //     if(Component){
+      //       return <Component {...route.params} navigator = {navigator} />
+      //     }
+      //   }}
+      //   configureScene = {()=>{ return Navigator.SceneConfigs.VerticalDownSwipeJump;}}
+      // />
+      <NavigatorIOS
+        ref = 'nav'
+        initialRoute = {{
+          component:defaultComponent,
+          title:'投资圈',
+          rightButtonTitle:'详情',
+          translucent:true,
+          onRightButtonPress:()=>this._GoToArticleDetail(),
+        }}
+        style = {{flex:1}}
+        ></NavigatorIOS>
+
+
+    // < ArticleList />
+
+
+      // <View>
+      //   <ScrollView
+      //     // QUESTION: ref相关,_scrollView怎么不用定义
+      //     ref ={(scrollView)=>{ _scrollView = scrollView;}}
+      //     style = {styles.scrollViewContainer}
+      //     // contentContainerStyle =
+      //     horizontal = {true}
+      //     showsHorizontalScrollIndicator = {false}
+      //     pagingEnabled = {true}
+      //     // scrollEnabled = {true}
+      //     automaticallyAdjustContentInsets = {true}
+      //     onScroll = {()=>{
+      //       // console.warn('hha ');
+      //     }}
+      //     onContentSizeChange = {(contentWidth,contentHeight)=>{
+      //       // console.warn(contentWidth+','+contentHeight);
+      //     }}
+      //     >
+      //       {
+      //         // 遍历数组,设置控件
+      //         // console.warn(this.state.bannerDataSource);
+      //         this.state.bannerDataSource.map((bannerInfo,i)=>
+      //           // console.warn(bannerInfo.title);
+      //           <ScrollViewContent key={i} bannerInfo = {bannerInfo} />
+      //         )
+      //       }
+      //       {/* //普通的设置方法
+      //       <ScrollViewContent bannerInfo = {BannerListArray[0]}/>
+      //       <ScrollViewContent bannerInfo = {BannerListArray[1]}/>
+      //       <ScrollViewContent bannerInfo = {BannerListArray[2]}/>
+      //       <ScrollViewContent bannerInfo = {BannerListArray[3]}/> */}
+      //   </ScrollView>
+      //   <ListView
+      //     dataSource = {this.state.dataSource}
+      //     renderRow = {(rowData)=> <ListViewCell currentRowData = {rowData}/>}
+      //     //可使用borderBottomWidth实现
+      //     renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+      //  />
+      // </View>
 
       // <Navigator
       //   initialRoute = {{title:'圈子',index:0}}
@@ -272,8 +434,9 @@ const styles = StyleSheet.create({
     //子元素沿着次轴的对齐方式
     // alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    // '#FFFFFF',
     overflow:'hidden',
-    marginTop:64,
+    paddingTop:64,
   },
   scrollViewContainer:{
     // marginTop:Platform.OS === 'android'?0:20,

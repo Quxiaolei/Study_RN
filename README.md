@@ -351,6 +351,10 @@ fetch(url, fetchOptions)
 ###其他资料
 [React/React Native 的ES5 ES6写法对照表](http://bbs.reactnative.cn/topic/15/react-react-native-%E7%9A%84es5-es6%E5%86%99%E6%B3%95%E5%AF%B9%E7%85%A7%E8%A1%A8)
 
+[Getting Started with Redux视频](https://egghead.io/courses/getting-started-with-redux)
+
+[近期 React-Native With Redux 开发的一点心得](http://www.lijianfei.cn/2016/04/20/RN-Rudex-Exp/)
+
 [手把手教React Native实战开发视频教程【更新到48集啦。。。】](http://bbs.reactnative.cn/topic/759/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99react-native%E5%AE%9E%E6%88%98%E5%BC%80%E5%8F%91%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B-%E6%9B%B4%E6%96%B0%E5%88%B048%E9%9B%86%E5%95%A6)
 #####1.图书搜索,查看
 

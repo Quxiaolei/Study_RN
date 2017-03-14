@@ -177,6 +177,13 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 * `popToRoute(route)` - pop到路由指定的场景，在整个路由栈中，处于指定场景之后的场景将会被卸载。
 * `popToTop()` - pop到栈中的第一个场景，卸载掉所有的其他场景。
 
+9.`TouchableHighlight`和`TouchableOpacity`:
+
+他们都继承自`TouchableWithoutFeedback`,常见的方法有:`onPress`,`onLongPress`,`onPressIn`,`onPressOut`,属性:`disabled`,`hitSlop`(设置触摸范围的大小,但不会超过父视图的边界)
+
+前者点下后视图不透明度会降低,底层的渲染颜色会被用户看到,使得视图变亮或者变暗.会出现副作用,建议少用.
+
+后者点下后视图的不透明度也会降低,但是没有额外的颜色变化.建议使用.
 
 
 `Platform`:

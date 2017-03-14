@@ -17,6 +17,8 @@ import {
 import Article from './Article';
 import ArticleList from './ArticleList';
 
+let ArticleDetailAPI = 'http://172.16.101.202/play/circle/getPostInfo4C';
+
 let {height,width} = Dimensions.get('window');
 
 class ArticleDetailView extends Component{
@@ -39,7 +41,29 @@ export default class ArticleDetail extends Component {
     };
   }
 
+  _requestArticleDetail(postId:string){
+    console.warn(postId);
+    fetch(ArticleDetailAPI,{
+      method:'POST',
+      header:{
+        'Content-Type':'application/x-www-form-urlencoded',
+      },
+    })
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+      console.warn(responseJson);
+    })
+    .catch((error)=>{
+      console.error(error);
+    })
+    .done();
+  }
+
   componentDidMount(){
+    if(this.props.postId){
+      //请求帖子详情
+      this._requestArticleDetail(this.props.postId);
+    }
   }
 
   componentWillUnmoont(){

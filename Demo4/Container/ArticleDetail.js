@@ -42,16 +42,17 @@ export default class ArticleDetail extends Component {
   }
 
   _requestArticleDetail(postId:string){
-    console.warn(postId);
+    // console.warn(postId);
     fetch(ArticleDetailAPI,{
       method:'POST',
-      header:{
+      headers:{
         'Content-Type':'application/x-www-form-urlencoded',
       },
+      body:'postId='+postId,
     })
     .then((response)=>response.json())
     .then((responseJson)=>{
-      console.warn(responseJson);
+      console.warn(responseJson.result.postInfo.coverImgURL);
     })
     .catch((error)=>{
       console.error(error);

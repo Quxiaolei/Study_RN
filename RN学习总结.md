@@ -163,6 +163,14 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 8.`Navigator`:
 
+`initialRoute`:定义启动时加载的路由
+
+`initialRouteStack`:初始化路由集合
+
+`renderScene`:指定路由的界面渲染
+
+`navigationBar`:设置导航栏
+
 * `getCurrentRoutes()` - 获取当前栈里的路由，也就是push进来，没有pop掉的那些。
 * `jumpBack()` - 跳回之前的路由，当然前提是保留现在的，还可以再跳回来，会给你保留原样。
 * `jumpForward()` - 上一个方法不是调到之前的路由了么，用这个跳回来就好了。
@@ -177,13 +185,22 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 * `popToRoute(route)` - pop到路由指定的场景，在整个路由栈中，处于指定场景之后的场景将会被卸载。
 * `popToTop()` - pop到栈中的第一个场景，卸载掉所有的其他场景。
 
-9.`TouchableHighlight`和`TouchableOpacity`:
+[navigator](https://facebook.github.io/react-native/docs/navigator.html)
+9.`NavigatorIOS`:
+
+在`initialRoute`中设置nav属性和配置,`component`(Function类型),`title`,`leftButtonTitle`,`leftButtonIcon`(传递图片资源地址),`onLeftButtonPress`,`rightButtonTitle`,`rightButtonIcon`,`onRightButtonPress`,`passProps`(传递字典数据)
+
+常见方法:`push`(可在内部设置下一个界面的nav属性和配置),`pop`,`replace`,`popToTop`
+
+10.`TouchableHighlight`和`TouchableOpacity`:
 
 他们都继承自`TouchableWithoutFeedback`,常见的方法有:`onPress`,`onLongPress`,`onPressIn`,`onPressOut`,属性:`disabled`,`hitSlop`(设置触摸范围的大小,但不会超过父视图的边界)
 
 前者点下后视图不透明度会降低,底层的渲染颜色会被用户看到,使得视图变亮或者变暗.会出现副作用,建议少用.
 
 后者点下后视图的不透明度也会降低,但是没有额外的颜色变化.建议使用.
+
+11.`WebView`
 
 
 `Platform`:

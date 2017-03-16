@@ -37,8 +37,14 @@ export default class Demo4 extends Component {
   //   sceneStyle={{ paddingBottom: tabBarHeight }}
   // />
   render() {
+    // console.warn(this.refs.tabbar);
     return (
-      <TabNavigator>
+      <TabNavigator
+        // ref = 'tabbar'
+        // style = {{height:0,overflow:'hidden'}}
+        // sceneStyle = {{paddingBottom:0}}
+        // hidesTabTouch = {true}
+        >
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'home'}
           title = '财富管家'

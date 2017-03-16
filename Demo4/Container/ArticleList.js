@@ -16,6 +16,8 @@ import {
 } from 'react-native';
 
 import ArticleDetail from './ArticleDetail';
+import WebViewContainer from './WebViewContainer';
+
 let {height,width} = Dimensions.get('window');
 
 let HostApi =
@@ -35,19 +37,44 @@ class CustomLabel extends Component{
 }
 
 class ScrollViewContent extends Component{
+  constructor(props){
+    super(props);
+  }
+  _ScrollViewDetailViewClicked(bannerInfo:Object,navigator:Object){
+    // console.warn('_ScrollViewDetailViewClicked\n'+bannerInfo.targetInfo+'\n'+bannerInfo.targetType);
+    if(1 == bannerInfo.targetType){
+      bannerInfo.targetInfo = bannerInfo.targetInfo+'?poCode=ZH000030';
+      //web展示
+      //http://172.16.101.202/info/experiencegold/experiencegold.html?poCode=ZH000030
+      navigator.push({
+        leftButtonIcon:require('../Images/nav_back.png'),
+        onLeftButtonPress:()=>navigator.pop(),
+        component:WebViewContainer,
+        title:bannerInfo.title,
+        passProps:{
+          bannerInfo:bannerInfo,
+        },
+      });
+    }else if (2==bannerInfo.targetType) {
+      // this._GoToArticleDetail();
+    }
+  }
   render(){
-    let bannerTitle = this.props.bannerInfo.title;
-    let bannerImage = this.props.bannerInfo.bannerImgUrl;
+    let bannerInfo = this.props.bannerInfo;
+    let bannerImage = bannerInfo.bannerImgUrl;
+    let bannerTitle = bannerInfo.title;
     let image = {
-      uri:HostApi+bannerImage
+      uri:HostApi+bannerImage,
     }
     // require('../Images/blue.png');
     return (
-      <View>
+      <TouchableOpacity
+        onPress = {()=>this._ScrollViewDetailViewClicked(bannerInfo,this.props.navigator)}
+        >
         <Image source = {image} style = {{flex:1,flexDirection:'column-reverse',width:width-20,margin:10}}>
           <Text style= {{fontSize:16,color:'white',marginBottom:10,marginLeft:10,backgroundColor:'rgba(100, 100, 100, 0.00001)'}}>{bannerTitle}</Text>
         </Image>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -246,7 +273,7 @@ class ArticleListView extends Component {
               // console.warn(this.state.bannerDataSource);
               this.state.bannerDataSource.map((bannerInfo,i)=>
                 // console.warn(bannerInfo.title);
-                <ScrollViewContent key={i} bannerInfo = {bannerInfo} />
+                <ScrollViewContent key={i} bannerInfo = {bannerInfo} navigator = {this.props.navigator}/>
               )
             }
             {/* //普通的设置方法
@@ -298,6 +325,7 @@ class ArticleListView extends Component {
 export default class ArticleList extends Component {
   constructor(props){
     super(props);
+    // console.warn(this.props.tabbar);
     this.state = {
     };
   }

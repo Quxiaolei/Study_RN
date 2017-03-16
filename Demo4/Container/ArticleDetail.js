@@ -36,7 +36,15 @@ class ArticleDetailView extends Component{
         source = {{uri:HostApi+result.postInfo.contentHtml}}
         startInLoadingState = {true}
         scalesPageToFit = {true}
-        style = {{top:44,height:500}}>
+        style = {{backgroundColor:'red',top:44,height:100}}
+        onLoadStart = {()=>{
+          // console.warn('webView load start \n'+Date().toLocaleString());
+        }}
+        onLoadEnd = {()=>{
+          // console.warn('webView load end \n'+Date().toLocaleString());
+        }}
+        renderLoading = {()=><View style = {{justifyContent:'center',alignSelf:'center',backgroundColor:'red',width:50,height:50}}></View>}
+        >
       </WebView>
     </View>
   );
@@ -118,15 +126,16 @@ export default class ArticleDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     //子元素沿主轴的对齐方式
     justifyContent: 'center',
     //子元素沿着次轴的对齐方式
     // alignItems: 'center',
-    backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
     // '#FFFFFF',
     overflow:'hidden',
     paddingTop:20,
+    height:300,
   },
 });
 

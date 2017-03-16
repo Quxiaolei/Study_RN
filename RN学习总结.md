@@ -202,6 +202,11 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 11.`WebView`
 
+`source`同`Image`的使用方法
+
+`automaticallyAdjustContentInsets`,`contentInset`
+
+`onError`,`onLoad`,`onLoadStart`,`onLoadEnd`,`onMessage`,`onNavigationStateChange`,`renderError`(返回一个视图用于显示错误界面),`renderLoading`(返回一个视图用于显示加载界面)
 
 `Platform`:
 
@@ -211,7 +216,7 @@ Platform.OS === 'android'
 ```
 
 ###常用的第三方:
-
+[react-navigation(推荐使用)](https://github.com/react-community/react-navigation)
 [react-native-tab-navigator](https://github.com/exponent/react-native-tab-navigator)
 
 [react-native-elements](https://github.com/react-native-community/react-native-elements.git):含有常用的icon,按钮,表单,列表,搜索框,复选框,segmentButton等功能

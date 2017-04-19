@@ -210,13 +210,32 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 `Platform`:
 
+`Platform.OS`
 ```javascript
 //判断平台的系统
 Platform.OS === 'android'
 ```
 
+`Platform.select`
+
+```javascript
+//返回当前包含`Platform.OS`为key的对象
+Platform.select({
+  ios:{
+    backgroundColor:'red',
+  },
+  android:{
+    backgroundColor:'yellow',
+  },
+})
+```
+
+`Platform.Version`
+
+还可以使用`BigButton.ios.js`,`BigButton.android.js`等带`.ios`或者`.android`的后缀js文件,导入依赖关系时会自动识别平台
+
 ###常用的第三方:
 [react-navigation(推荐使用)](https://github.com/react-community/react-navigation)
-[react-native-tab-navigator](https://github.com/exponent/react-native-tab-navigator)
-
+[react-native-viewpager：可实现轮播图效果](https://github.com/race604/react-native-viewpager)
+[react-native-tab-navigator：可用于构建Tab，并可以轻松地进行页面切换](https://github.com/exponentjs/react-native-tab-navigator)
 [react-native-elements](https://github.com/react-native-community/react-native-elements.git):含有常用的icon,按钮,表单,列表,搜索框,复选框,segmentButton等功能

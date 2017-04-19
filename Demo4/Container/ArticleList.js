@@ -56,7 +56,20 @@ class ScrollViewContent extends Component{
         },
       });
     }else if (2==bannerInfo.targetType) {
-      // this._GoToArticleDetail();
+      let postInfo = bannerInfo.targetInfo.replace('postId=','');
+      navigator.push({
+        // leftButtonTitle:'back',
+        leftButtonIcon:require('../Images/nav_back.png'),
+        onLeftButtonPress:()=>navigator.pop(),
+        component:ArticleDetail,
+        title:'帖子详情',
+        // barTintColor: '#996699',
+        translucent:true,
+        passProps:{
+          text:'这是从帖子界面获取到的文本',
+          postId:postInfo,
+        },
+      });
     }
   }
   render(){
@@ -146,24 +159,14 @@ class ListViewCell extends Component{
   }
 }
 
-class ArticleListView extends Component {
+class ArticleListBannerView extends Component{
   constructor(props){
     super(props);
-    // let ArticleListJSON = require('./ArticleList.json');
-    // let ArticleListArray = ArticleListJSON.postListPerPage.postList;
-    // let BannerListJSON = require('./ArticleBannerList.json');
-    // let BannerListArray = BannerListJSON.bannerList;
-    // console.warn('数组长度:'+ArticleListArray.length);
-    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
     this.state = {
-      dataSource: ds,
-      // ds.cloneWithRows(ArticleListArray),
       scrollViewIndex:0,
       bannerDataSource:null,
       // bannerDataSource:BannerListArray,
-    };
-    // console.warn(height);
-    // console.warn(ArticleListApi);
+    }
     setInterval(()=>{
       if(null !=this.state.bannerDataSource){
         let i = (++this.state.scrollViewIndex)%this.state.bannerDataSource.length;
@@ -199,6 +202,75 @@ class ArticleListView extends Component {
     .done();
   }
 
+  componentDidMount(){
+    this._requestBannerListData();
+  }
+
+  componentWillUnmoont(){
+    clearInterval();
+  }
+  render(){
+    if(!this.state.bannerDataSource){
+      return (
+        <View style = {{flex:1,'justifyContent':'center'}}>
+          <ActivityIndicator animating = {true} size = 'large'/>
+          <Text style = {{textAlign:'center',color:'gray'}}>Loading Banner...</Text>
+        </View>
+      );
+    }
+    return (
+      <ScrollView
+        // QUESTION: ref相关,_scrollView怎么不用定义
+        ref ={(scrollView)=>{ _scrollView = scrollView;}}
+        style = {styles.scrollViewContainer}
+        // contentContainerStyle =
+        horizontal = {true}
+        showsHorizontalScrollIndicator = {false}
+        pagingEnabled = {true}
+        // scrollEnabled = {true}
+        automaticallyAdjustContentInsets = {true}
+        onScroll = {()=>{
+          // console.warn('hha ');
+        }}
+        onContentSizeChange = {(contentWidth,contentHeight)=>{
+          // console.warn(contentWidth+','+contentHeight);
+        }}
+        >
+          {
+            // 遍历数组,设置控件
+            // console.warn(this.state.bannerDataSource);
+            this.state.bannerDataSource.map((bannerInfo,i)=>
+              // console.warn(bannerInfo.title);
+              <ScrollViewContent key={i} bannerInfo = {bannerInfo} navigator = {this.props.navigator}/>
+            )
+          }
+          {/* //普通的设置方法
+          <ScrollViewContent bannerInfo = {BannerListArray[0]}/>
+          <ScrollViewContent bannerInfo = {BannerListArray[1]}/>
+          <ScrollViewContent bannerInfo = {BannerListArray[2]}/>
+          <ScrollViewContent bannerInfo = {BannerListArray[3]}/> */}
+      </ScrollView>
+    );
+  }
+}
+
+class ArticleListView extends Component {
+  constructor(props){
+    super(props);
+    // let ArticleListJSON = require('./ArticleList.json');
+    // let ArticleListArray = ArticleListJSON.postListPerPage.postList;
+    // let BannerListJSON = require('./ArticleBannerList.json');
+    // let BannerListArray = BannerListJSON.bannerList;
+    // console.warn('数组长度:'+ArticleListArray.length);
+    const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
+    this.state = {
+      dataSource: ds,
+      // ds.cloneWithRows(ArticleListArray),
+    };
+    // console.warn(height);
+    // console.warn(ArticleListApi);
+  }
+
   _requestArticleListData(){
     fetch(ArticleListApi,{
       method:'POST',
@@ -227,17 +299,14 @@ class ArticleListView extends Component {
   }
 
   componentDidMount(){
-    this._requestBannerListData();
     this._requestArticleListData();
-  }
-  componentWillUnmoont(){
-    clearInterval();
   }
 
   render() {
     // console.warn('title:'+this.props.navigator);
     //设置state时,会重新渲染一次组件
-    if(!this.state.bannerDataSource || !this.state.dataSource || this.state.dataSource.length <1){
+    //设置/!this.state.bannerDataSource
+    if( !this.state.dataSource || this.state.dataSource.length <1){
       return (
         <View style = {{flex:1,'justifyContent':'center'}}>
           <ActivityIndicator animating = {true} size = 'large'/>
@@ -251,37 +320,6 @@ class ArticleListView extends Component {
     }
     return (
       <View style ={styles.container}>
-        <ScrollView
-          // QUESTION: ref相关,_scrollView怎么不用定义
-          ref ={(scrollView)=>{ _scrollView = scrollView;}}
-          style = {styles.scrollViewContainer}
-          // contentContainerStyle =
-          horizontal = {true}
-          showsHorizontalScrollIndicator = {false}
-          pagingEnabled = {true}
-          // scrollEnabled = {true}
-          automaticallyAdjustContentInsets = {true}
-          onScroll = {()=>{
-            // console.warn('hha ');
-          }}
-          onContentSizeChange = {(contentWidth,contentHeight)=>{
-            // console.warn(contentWidth+','+contentHeight);
-          }}
-          >
-            {
-              // 遍历数组,设置控件
-              // console.warn(this.state.bannerDataSource);
-              this.state.bannerDataSource.map((bannerInfo,i)=>
-                // console.warn(bannerInfo.title);
-                <ScrollViewContent key={i} bannerInfo = {bannerInfo} navigator = {this.props.navigator}/>
-              )
-            }
-            {/* //普通的设置方法
-            <ScrollViewContent bannerInfo = {BannerListArray[0]}/>
-            <ScrollViewContent bannerInfo = {BannerListArray[1]}/>
-            <ScrollViewContent bannerInfo = {BannerListArray[2]}/>
-            <ScrollViewContent bannerInfo = {BannerListArray[3]}/> */}
-        </ScrollView>
         <ListView
           dataSource = {this.state.dataSource}
           renderRow = {(rowData,selection,row)=> {
@@ -289,6 +327,8 @@ class ArticleListView extends Component {
             return <ListViewCell currentRowData = {rowData} selectionID = {selection} rowID ={row} navigator = {this.props.navigator}/>}}
           //可使用borderBottomWidth实现
           renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+          stickySectionHeadersEnabled = {false}
+          renderSectionHeader = {(selection,row) =><ArticleListBannerView />}
        />
       </View>
 
@@ -464,11 +504,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     // '#FFFFFF',
     overflow:'hidden',
-    paddingTop:64,
+    paddingTop:0,
   },
   scrollViewContainer:{
     // marginTop:Platform.OS === 'android'?0:20,
-    height:280,
+    height:230,
     backgroundColor:'lightgray',
   },
   cellContainer:{
@@ -483,6 +523,10 @@ const styles = StyleSheet.create({
   cellSeparator:{
     backgroundColor: 'black',
     height: 0.5,
+  },
+  sectionHeader:{
+    backgroundColor: 'red',
+    // height: 20,
   },
   imageStyle:{
     alignSelf:'center',

@@ -393,7 +393,7 @@ export default class ArticleList extends Component {
       translucent:true,
       passProps:{
         text:'这是从帖子界面获取到的文本',
-        postId:'333',
+        postId:'330',
       },
     });
   }

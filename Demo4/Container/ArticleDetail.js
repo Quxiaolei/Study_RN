@@ -31,8 +31,8 @@ class ArticleDetailView extends Component{
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderMove: (evt, gestureState) => {
-      // console.warn('x轴偏移量:'+gestureState.dx);
-      if(gestureState.dx > 20){
+      // console.warn('x轴偏移量'+gestureState.dx);
+      if(gestureState.dx > 50){
         //返回列表
         this.props.navigator.pop();
       }
@@ -42,27 +42,49 @@ class ArticleDetailView extends Component{
 
   render(){
     let result = this.props.articleData;
+    let postTime = new Date();
+    postTime.setTime(result.postInfo.postTime);
+
     // console.warn(HostApi+result.postInfo.contentHtml);
+    // console.warn(result.postInfo.title);
     return (
-    <View style = {styles.container} {...this._panResponder.panHandlers}>
+    <ScrollView style = {styles.container} {...this._panResponder.panHandlers}>
       {/* <Text style = {{backgroundColor:'red',textAlign:'center'}}>{this.props.text}</Text> */}
       <Image source = {{uri:HostApi+result.postInfo.coverImgURL}} style = {styles.imageStyle}></Image>
+      <Text style = {styles.titleText,{backgroundColor:'white'}}>  {result.postInfo.title}</Text>
+      <View style = {{backgroundColor:'white',flexDirection:'row','justifyContent':'space-between',top:10}}>
+        <Text style = {{fontSize:13,backgroundColor:'white'}}>  {result.postInfo.authorInfo.nickName}  {postTime.toLocaleString()}</Text>
+        <Text style = {{fontSize:13,backgroundColor:'white'}}>{result.postInfo.visitNumber}  </Text>
+      </View>
       <WebView
+        ref = 'webView'
         automaticallyAdjustContentInsets = {true}
         source = {{uri:HostApi+result.postInfo.contentHtml}}
         startInLoadingState = {true}
         scalesPageToFit = {true}
-        style = {{backgroundColor:'red',top:44,height:100}}
+        style = {{backgroundColor:'red',top:14,height:100}}
         onLoadStart = {()=>{
           // console.warn('webView load start \n'+Date().toLocaleString());
         }}
+        // onContentSizeChange = {()=>{
+        //   console.warn(`contentHeight`);
+        // }}
+        onLoad = {(webView)=>{
+          // FIXME 动态改变webView高度
+          // console.warn(`webView.height`);
+          // console.warn('webView load end \n'+Date().toLocaleString());
+          // console.warn(this.refs.webView.height);
+          // this.refs.webView.height = 1000;
+        }}
         onLoadEnd = {()=>{
           // console.warn('webView load end \n'+Date().toLocaleString());
+          // console.warn(this.refs.webView.height);
+          // this.refs.webView.height = 1000;
         }}
         renderLoading = {()=><View style = {{justifyContent:'center',alignSelf:'center',backgroundColor:'red',width:50,height:50}}></View>}
         >
       </WebView>
-    </View>
+    </ScrollView>
   );
   }
 }
@@ -154,20 +176,25 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     //子元素沿主轴的对齐方式
-    justifyContent: 'center',
+    // justifyContent: 'center',
     //子元素沿着次轴的对齐方式
     // alignItems: 'center',
     // backgroundColor: 'yellow',
     // '#FFFFFF',
     overflow:'hidden',
     // paddingTop:20,
-    height:300,
+    // height:height,
   },
   imageStyle:{
     alignSelf:'center',
     // margin:10,
     width:width,
     height:200,
+  },
+  titleText:{
+    // backgroundColor:'red',
+    fontSize:20,
+    height:25,
   },
 });
 

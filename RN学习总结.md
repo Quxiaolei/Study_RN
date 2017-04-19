@@ -147,7 +147,7 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 6.`ScrollView`:是个通用的可滚动容器,其内可以放入多种不同的组件和视图.
 
-`Scrollview`组件实质上是把不确定高度的子组件放在确定高度的容器中,所以必须有一个确定的高度.
+`Scrollview`组件实质上是把不确定高度的子组件放在**确定高度**的容器中,所以必须有一个确定的高度.
 
 `ScrollView`中所有的组件都会被渲染,不考虑组件的重用.适合短列表数据展示.
 
@@ -220,6 +220,36 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 `automaticallyAdjustContentInsets`,`contentInset`
 
 `onError`,`onLoad`,`onLoadStart`,`onLoadEnd`,`onMessage`,`onNavigationStateChange`,`renderError`(返回一个视图用于显示错误界面),`renderLoading`(返回一个视图用于显示加载界面)
+
+12.`PanResponder`:事件的响应链同原生,由父级View底层向上层冒泡传递
+
+`Responder`与`PanResponder`功能类似
+
+主要生命周期:
+
+`View.props.onStartShouldSetResponder: (evt) => true`, - 在用户开始触摸的时候（手指刚刚接触屏幕的瞬间），是否愿意成为响应者？
+
+`View.props.onMoveShouldSetResponder: (evt) => true`, - 如果View不是响应者，那么在每一个触摸点开始移动（没有停下也没有离开屏幕）时再询问一次：是否愿意响应触摸交互呢？
+
+View尝试成为响应者时:
+
+`View.props.onResponderGrant: (evt) => {}` - View现在要开始响应触摸事件了。这也是需要做高亮的时候，使用户知道他到底点到了哪里。
+
+`View.props.onResponderReject: (evt) => {}` - 响应者现在“另有其人”而且暂时不会“放权”，请另作安排。
+
+View已开始响应触摸事件:
+
+`View.props.onResponderMove: (evt) => {}` - 用户正在屏幕上移动手指时（没有停下也没有离开屏幕）。
+
+`View.props.onResponderRelease: (evt) => {}` - 触摸操作结束时触发，比如"touchUp"（手指抬起离开屏幕）。
+
+`View.props.onResponderTerminationRequest: (evt) => true` - 有其他组件请求接替响应者，当前的View是否“放权”？返回true的话则释放响应者权力。
+
+`View.props.onResponderTerminate: (evt) => {}` - 响应者权力已经交出。这可能是由于其他View通过onResponderTerminationRequest请求的，也可能是由操作系统强制夺权（比如iOS上的控制中心或是通知中心）。
+
+`nativeEvent`:`changedTouches`,`identifier`,`locationX`,`locationY`,`pageX`,`pageY`,`target`,`timestamp`(触摸事件的时间戳，可用于移动速度的计算),`touches`(当前屏幕上的所有触摸点的集合)
+
+`gestureState`:`stateID`,`moveX`,`moveY`,`x0`,`y0`,`dx`,`dy`,`vx`,`vy`,`numberActiveTouches`
 
 `Platform`:
 

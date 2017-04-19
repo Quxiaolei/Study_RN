@@ -27,7 +27,8 @@ export default class Demo4 extends Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedTab:'article'
+      selectedTab:'article',
+      tabBarHeight:50,
     };
   }
   //隐藏Tabbar
@@ -36,13 +37,21 @@ export default class Demo4 extends Component {
   //   tabBarStyle={{ height: tabBarHeight, overflow: 'hidden' }}
   //   sceneStyle={{ paddingBottom: tabBarHeight }}
   // />
+  _tabbarItemPressed(selectedTitle:String){
+    // console.warn(selectedTitle);
+    this.setState({
+      selectedTab:selectedTitle,
+      // tabBarHeight:0
+    })
+  }
   render() {
     // console.warn(this.refs.tabbar);
+    // console.warn(this.state.tabBarHeight);
     return (
       <TabNavigator
-        // ref = 'tabbar'
-        // style = {{height:0,overflow:'hidden'}}
-        // sceneStyle = {{paddingBottom:0}}
+        ref = 'tabbar'
+        // style = {{height:this.state.tabBarHeight,overflow:'hidden'}}
+        // sceneStyle = {{paddingBottom:this.state.tabBarHeight}}
         // hidesTabTouch = {true}
         >
         <TabNavigator.Item
@@ -50,7 +59,7 @@ export default class Demo4 extends Component {
           title = '财富管家'
           renderIcon = {()=> <Image source = {require('./Images/Tabbar/投资管家.png')} />}
           renderSelectedIcon = {()=><Image source= {require('./Images/Tabbar/投资管家_selected.png')}/>}
-          onPress = {()=>this.setState({selectedTab:'home'})}
+          onPress = {()=>this.setState({selectedTab:'home',tabBarHeight:0})}
           badgeText = '1'
           >
             <Majordomo />
@@ -69,7 +78,8 @@ export default class Demo4 extends Component {
           title = '我的'
           renderIcon = {() =><Image  source = {require('./Images/Tabbar/我的.png')}/>}
           renderSelectedIcon = {() =><Image  source = {require('./Images/Tabbar/我的_selected.png')}/>}
-          onPress = {()=>this.setState({selectedTab:'mine'})}
+          onPress = {()=>this._tabbarItemPressed('mine')}
+          // {()=>this.setState({selectedTab:'mine'})}
           >
             <Mine />
         </TabNavigator.Item>

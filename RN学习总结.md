@@ -1,6 +1,6 @@
-#RN学习总结
+# RN学习总结
 
-###常见命令:
+### 常见命令:
 
 `react-native init **`
 
@@ -159,6 +159,10 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 `ListView`必须实现的两个属性:`dataSource`(数据源)和`renderRow`(渲染某行的组件).
 
+`renderSectionHeader`:渲染listView分区头部,可以使用`stickySectionHeadersEnabled`控制区头部分是否跟随listView移动
+
+`renderSeparator`:设置分割线样式
+
 `rowHasChanged`:
 
 8.`Navigator`:
@@ -186,9 +190,18 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 * `popToTop()` - pop到栈中的第一个场景，卸载掉所有的其他场景。
 
 [navigator](https://facebook.github.io/react-native/docs/navigator.html)
+
 9.`NavigatorIOS`:
 
 在`initialRoute`中设置nav属性和配置,`component`(Function类型),`title`,`leftButtonTitle`,`leftButtonIcon`(传递图片资源地址),`onLeftButtonPress`,`rightButtonTitle`,`rightButtonIcon`,`onRightButtonPress`,`passProps`(传递字典数据)
+
+`barTintColor`,`tintColor`,`titleTextColor`控制控件显示颜色
+
+`navigationBarHidden`:控制导航栏是否隐藏
+
+`shadowHidden`:控制导航栏是否隐藏1像素的阴影
+
+`translucent`:设置导航栏半透明效果
 
 常见方法:`push`(可在内部设置下一个界面的nav属性和配置),`pop`,`replace`,`popToTop`
 
@@ -234,8 +247,11 @@ Platform.select({
 
 还可以使用`BigButton.ios.js`,`BigButton.android.js`等带`.ios`或者`.android`的后缀js文件,导入依赖关系时会自动识别平台
 
-###常用的第三方:
+### 常用的第三方:
 [react-navigation(推荐使用)](https://github.com/react-community/react-navigation)
+
 [react-native-viewpager：可实现轮播图效果](https://github.com/race604/react-native-viewpager)
-[react-native-tab-navigator：可用于构建Tab，并可以轻松地进行页面切换](https://github.com/exponentjs/react-native-tab-navigator)
+
+[react-native-tab-navigator：可用于构建跨平台Tab，并可以轻松地进行页面切换](https://github.com/exponentjs/react-native-tab-navigator)
+
 [react-native-elements](https://github.com/react-native-community/react-native-elements.git):含有常用的icon,按钮,表单,列表,搜索框,复选框,segmentButton等功能

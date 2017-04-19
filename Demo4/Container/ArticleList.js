@@ -327,8 +327,9 @@ class ArticleListView extends Component {
             return <ListViewCell currentRowData = {rowData} selectionID = {selection} rowID ={row} navigator = {this.props.navigator}/>}}
           //可使用borderBottomWidth实现
           renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
+          //设置区头部分显示是否固定
           stickySectionHeadersEnabled = {false}
-          renderSectionHeader = {(selection,row) =><ArticleListBannerView />}
+          renderSectionHeader = {(selection,row) =><ArticleListBannerView navigator = {this.props.navigator}/>}
        />
       </View>
 

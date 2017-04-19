@@ -12,7 +12,8 @@ import {
   ActivityIndicator,
   Platform,
   WebView,
-  View
+  View,
+  PanResponder
 } from 'react-native';
 
 import Article from './Article';
@@ -25,12 +26,27 @@ let ArticleDetailAPI = HostApi+'play/circle/getPostInfo4C';
 let {height,width} = Dimensions.get('window');
 
 class ArticleDetailView extends Component{
+  componentWillMount(){
+    this._panResponder = PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onPanResponderMove: (evt, gestureState) => {
+      // console.warn('x轴偏移量:'+gestureState.dx);
+      if(gestureState.dx > 20){
+        //返回列表
+        this.props.navigator.pop();
+      }
+    },
+  });
+}
+
   render(){
     let result = this.props.articleData;
     // console.warn(HostApi+result.postInfo.contentHtml);
     return (
-    <View style = {styles.container}>
+    <View style = {styles.container} {...this._panResponder.panHandlers}>
       {/* <Text style = {{backgroundColor:'red',textAlign:'center'}}>{this.props.text}</Text> */}
+      <Image source = {{uri:HostApi+result.postInfo.coverImgURL}} style = {styles.imageStyle}></Image>
       <WebView
         automaticallyAdjustContentInsets = {true}
         source = {{uri:HostApi+result.postInfo.contentHtml}}
@@ -82,6 +98,15 @@ export default class ArticleDetail extends Component {
     .done();
   }
 
+  // componentWillMount(){
+  //   this._panResponder = PanResponder.create({
+  //     onPanResponderMove: (evt, gestureState) => {  // The most recent move distance is gestureState.move{X,Y}
+  // // The accumulated gesture distance since becoming responder is
+  // // gestureState.d{x,y}
+  // console.warn(evt,gestureState);
+  //   },
+  //   });
+  // }
   componentDidMount(){
     if(this.props.postId){
       //请求帖子详情
@@ -109,8 +134,9 @@ export default class ArticleDetail extends Component {
         </View>
       );
     }
+    // console.warn(this.props.navigator.title);
     return (
-      <ArticleDetailView articleData = {this.state.articleDetailData.result}/>
+      <ArticleDetailView articleData = {this.state.articleDetailData.result} navigator = {this.props.navigator}/>
       // <NavigatorIOS
       //   initialRoute = {{
       //     component:ArticleDetailView,
@@ -134,8 +160,14 @@ const styles = StyleSheet.create({
     // backgroundColor: 'yellow',
     // '#FFFFFF',
     overflow:'hidden',
-    paddingTop:20,
+    // paddingTop:20,
     height:300,
+  },
+  imageStyle:{
+    alignSelf:'center',
+    // margin:10,
+    width:width,
+    height:200,
   },
 });
 

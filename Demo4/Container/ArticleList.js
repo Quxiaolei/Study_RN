@@ -65,6 +65,7 @@ class ScrollViewContent extends Component{
         title:'帖子详情',
         // barTintColor: '#996699',
         translucent:true,
+        navigationBarHidden:true,
         passProps:{
           text:'这是从帖子界面获取到的文本',
           postId:postInfo,
@@ -110,6 +111,7 @@ class ListViewCell extends Component{
       title:'帖子详情',
       // barTintColor: '#996699',
       translucent:true,
+      navigationBarHidden:true,
       passProps:{
         text:'这是从帖子界面获取到的文本',
         postId:postId,
@@ -366,7 +368,7 @@ class ArticleListView extends Component {
 export default class ArticleList extends Component {
   constructor(props){
     super(props);
-    // console.warn(this.props.tabbar);
+    // console.warn(this.props.selectedTabName);
     this.state = {
     };
   }
@@ -391,6 +393,7 @@ export default class ArticleList extends Component {
       translucent:true,
       passProps:{
         text:'这是从帖子界面获取到的文本',
+        postId:'333',
       },
     });
   }

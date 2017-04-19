@@ -59,10 +59,10 @@ export default class Demo4 extends Component {
           title = '财富管家'
           renderIcon = {()=> <Image source = {require('./Images/Tabbar/投资管家.png')} />}
           renderSelectedIcon = {()=><Image source= {require('./Images/Tabbar/投资管家_selected.png')}/>}
-          onPress = {()=>this.setState({selectedTab:'home',tabBarHeight:0})}
+          onPress = {()=>this.setState({selectedTab:'home'})}
           badgeText = '1'
           >
-            <Majordomo />
+            <Majordomo tabbar = {this.refs.tabbar}/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'article'}
@@ -71,7 +71,8 @@ export default class Demo4 extends Component {
           renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
           onPress = {()=>this.setState({selectedTab:'article'})}
           >
-            <ArticleList />
+            {/*TabNavigator对象未初始化完成,此时传递对象是undefined*/}
+            <ArticleList tabbar = {this.refs.tabbar} selectedTabName='article'/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'mine'}

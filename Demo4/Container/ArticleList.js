@@ -102,21 +102,33 @@ class ListViewCell extends Component{
   _ListViewCellClicked(postId:string){
     // console.warn('clicked rowID:'+this.props.rowID);
     // console.warn('navigator:'+this.props.navigator);
-    // console.warn(postId);
-    this.props.navigator.push({
-      // leftButtonTitle:'back',
-      leftButtonIcon:require('../Images/nav_back.png'),
-      onLeftButtonPress:()=>this.props.navigator.pop(),
-      component:ArticleDetail,
-      title:'帖子详情',
-      // barTintColor: '#996699',
-      translucent:true,
-      navigationBarHidden:true,
-      passProps:{
-        text:'这是从帖子界面获取到的文本',
-        postId:postId,
-      },
-    });
+    // console.warn(`列表postId`+postId);
+    if(Platform.OS === 'android'){
+      //因为Navigator <Component {...route.params} navigator={navigator} />传入了navigator 所以这里能取到navigator
+      const{navigator} = this.props;
+      navigator.push({
+        component:ArticleDetail,
+        params:{
+          text:'这是从帖子界面获取到的文本',
+          postId:postId,
+        },
+      });
+    } else{
+      this.props.navigator.push({
+        // leftButtonTitle:'back',
+        leftButtonIcon:require('../Images/nav_back.png'),
+        onLeftButtonPress:()=>this.props.navigator.pop(),
+        component:ArticleDetail,
+        title:'帖子详情',
+        // barTintColor: '#996699',
+        translucent:true,
+        navigationBarHidden:true,
+        passProps:{
+          text:'这是从帖子界面获取到的文本',
+          postId:postId,
+        },
+      });
+    }
   }
 
   render(){
@@ -401,17 +413,48 @@ export default class ArticleList extends Component {
   render() {
     let defaultComponent = ArticleListView;
     let defaultName = 'ArticleList';
+    if(Platform.OS === 'android'){
+      const routes = [{component:defaultComponent,name:defaultName,index:0}, ];
+      return (
+        <Navigator
+          initialRoute = {routes[0]}
+          initialRouteStack = {routes}
+          renderScene = {(route,navigator)=>{
+            let Component = route.component;
+            if(Component){
+              return <Component {...route.params} navigator = {navigator} />
+            }
+          }}
+          navigationBar={
+            <Navigator.NavigationBar
+              routeMapper={{
+                LeftButton: (route, navigator, index, navState) => { return (<Text></Text>); },
+                RightButton: (route, navigator, index, navState) => {
+                   return (
+                     <TouchableOpacity onPress={()=>{
+                       navigator.push({
+                         component:ArticleDetail,
+                           title:`ArticleDetail`,
+                           backButtonTitle:'back',
+                          //???: 为什么不能用passProps呢
+                           params:{
+                             postId:'330',
+                             text:`正向传值`,
+                           },
+                           index:1});
+                   }}>
+                   <Text style = {{backgroundColor:'red'}}>详情</Text>
+                 </TouchableOpacity>);
+                 },
+                Title: (route, navigator, index, navState) => { return (<TouchableOpacity><Text style = {{backgroundColor:'red'}}>投资圈</Text></TouchableOpacity>); },
+              }}
+              style={{backgroundColor: 'lightgray'}} />
+            }
+          configureScene = {()=>{ return Navigator.SceneConfigs.PushFromRight;}}
+        />
+      );
+    }
     return (
-      // <Navigator
-      //   initialRoute = {{component:ArticleList,name:defaultName,index:0}}
-      //   renderScene = {(route,navigator)=>{
-      //     let Component = route.component;
-      //     if(Component){
-      //       return <Component {...route.params} navigator = {navigator} />
-      //     }
-      //   }}
-      //   configureScene = {()=>{ return Navigator.SceneConfigs.VerticalDownSwipeJump;}}
-      // />
       <NavigatorIOS
         ref = 'nav'
         initialRoute = {{

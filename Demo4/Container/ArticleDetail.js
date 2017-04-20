@@ -52,7 +52,7 @@ class ArticleDetailView extends Component{
       {/* <Text style = {{backgroundColor:'red',textAlign:'center'}}>{this.props.text}</Text> */}
       <Image source = {{uri:HostApi+result.postInfo.coverImgURL}} style = {styles.imageStyle}></Image>
       <Text style = {styles.titleText,{backgroundColor:'white'}}>  {result.postInfo.title}</Text>
-      <View style = {{backgroundColor:'white',flexDirection:'row','justifyContent':'space-between',top:10}}>
+      <View style = {{backgroundColor:'white',flexDirection:'row','justifyContent':'space-between'}}>
         <Text style = {{fontSize:13,backgroundColor:'white'}}>  {result.postInfo.authorInfo.nickName}  {postTime.toLocaleString()}</Text>
         <Text style = {{fontSize:13,backgroundColor:'white'}}>{result.postInfo.visitNumber}  </Text>
       </View>
@@ -62,7 +62,8 @@ class ArticleDetailView extends Component{
         source = {{uri:HostApi+result.postInfo.contentHtml}}
         startInLoadingState = {true}
         scalesPageToFit = {true}
-        style = {{backgroundColor:'red',top:14,height:100}}
+        scrollEnabled = {false}
+        style = {{backgroundColor:'red',height:600}}
         onLoadStart = {()=>{
           // console.warn('webView load start \n'+Date().toLocaleString());
         }}
@@ -75,13 +76,23 @@ class ArticleDetailView extends Component{
           // console.warn('webView load end \n'+Date().toLocaleString());
           // console.warn(this.refs.webView.height);
           // this.refs.webView.height = 1000;
+          // console.warn(webView);
         }}
-        onLoadEnd = {()=>{
+        onNavigationStateChange = {(navState) => {
+          // console.warn(navState.url);
+          // console.warn(this.refs.webView);
+        }}
+        onLoadEnd = {(webView)=>{
           // console.warn('webView load end \n'+Date().toLocaleString());
           // console.warn(this.refs.webView.height);
           // this.refs.webView.height = 1000;
+          // console.warn(webView.contentInset);
         }}
-        renderLoading = {()=><View style = {{justifyContent:'center',alignSelf:'center',backgroundColor:'red',width:50,height:50}}></View>}
+        renderLoading = {()=><View style = {{flex:1,'justifyContent':'center'}}>
+          <ActivityIndicator animating = {true} size = 'large'/>
+          <Text style = {{textAlign:'center',color:'gray'}}>Loading...</Text>
+        </View>
+      }
         >
       </WebView>
     </ScrollView>
@@ -93,7 +104,8 @@ export default class ArticleDetail extends Component {
   constructor(props){
     super(props);
     // this.props.navigator.passProps.text;
-    // console.warn(this.props.text);
+    // console.warn(`title `+this.props.text);
+    // console.warn(`navigator `+this.props.navigator.props.postId);
     this.state = {
       articleDetailData:null,
     };
@@ -157,6 +169,8 @@ export default class ArticleDetail extends Component {
       );
     }
     // console.warn(this.props.navigator.title);
+    // console.warn(`title `+this.props.text);
+    // console.warn(`postid `+this.props.postId);
     return (
       <ArticleDetailView articleData = {this.state.articleDetailData.result} navigator = {this.props.navigator}/>
       // <NavigatorIOS
@@ -174,7 +188,7 @@ export default class ArticleDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     //子元素沿主轴的对齐方式
     // justifyContent: 'center',
     //子元素沿着次轴的对齐方式

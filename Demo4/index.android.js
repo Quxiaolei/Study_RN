@@ -31,7 +31,9 @@ export default class Demo4 extends Component {
   }
   render() {
     return (
-      <TabNavigator>
+      <TabNavigator
+        ref = 'tabbar'
+        >
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'home'}
           title = '财富管家'
@@ -49,7 +51,7 @@ export default class Demo4 extends Component {
           renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
           onPress = {()=>this.setState({selectedTab:'article'})}
           >
-            <ArticleList />
+            <ArticleList tabbar = {this.refs.tabbar} selectedTabName='article'/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'mine'}

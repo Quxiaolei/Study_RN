@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   Platform,
   WebView,
+  TouchableOpacity,
   View
 } from 'react-native';
 
@@ -37,9 +38,19 @@ export default class WebViewContainer extends Component {
 
   render() {
     let webViewURL = HostApi+this.props.bannerInfo.targetInfo;
-    console.warn(webViewURL);
+    // console.warn(webViewURL);
     return (
         <View style = {styles.container}>
+          <View style = {{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'white',height:Platform.OS === 'android'?46:0}}>
+            <TouchableOpacity
+              onPress = {()=>{
+                this.props.navigator.pop();
+              }}>
+              <Text style = {{backgroundColor:'white',textAlign:'center',textAlignVertical:'center'}}>返回</Text>
+            </TouchableOpacity>
+            <Text style = {{backgroundColor:'white',textAlign:'center',textAlignVertical:'center'}}>{this.props.bannerInfo.title}</Text>
+            <Text></Text>
+          </View>
           <WebView
             automaticallyAdjustContentInsets = {true}
             scalesPageToFit = {true}

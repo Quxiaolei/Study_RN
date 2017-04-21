@@ -54,9 +54,6 @@ class ScrollViewContent extends Component{
         passProps:{
           bannerInfo:bannerInfo,
         },
-        params:{
-          bannerInfo:bannerInfo,
-        }
       });
     }else if (2==bannerInfo.targetType) {
       let postInfo = bannerInfo.targetInfo.replace('postId=','');
@@ -73,10 +70,6 @@ class ScrollViewContent extends Component{
           text:'这是从帖子界面获取到的文本',
           postId:postInfo,
         },
-        params:{
-          text:'这是从帖子界面获取到的文本',
-          postId:postInfo,
-        }
       });
     }
   }
@@ -339,7 +332,6 @@ class ArticleListView extends Component {
         // </View> */}
       );
     }
-    const{navigator} = this.props;
     return (
       <View style ={styles.container}>
         <Text style = {{backgroundColor:'white',textAlign:'center',textAlignVertical:'center',height:Platform.OS === 'android'?46:0}}>投资圈</Text>

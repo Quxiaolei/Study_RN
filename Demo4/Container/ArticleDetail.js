@@ -172,7 +172,7 @@ export default class ArticleDetail extends Component {
     // console.warn(`title `+this.props.text);
     // console.warn(`postid `+this.props.postId);
     return (
-      <ArticleDetailView articleData = {this.state.articleDetailData.result} navigator = {this.props.navigator}/>
+        <ArticleDetailView articleData = {this.state.articleDetailData.result} navigator = {this.props.navigator}/>
       // <NavigatorIOS
       //   initialRoute = {{
       //     component:ArticleDetailView,

@@ -11,8 +11,12 @@ import {
   Text,
   Image,
   TextInput,
+  TouchableOpacity,
+  Navigator,
   View
 } from 'react-native';
+
+import SecondView from './secondView';
 
 class Greeting extends Component {
   constructor() {
@@ -44,9 +48,8 @@ class Blink extends Component {
   }
 }
 
-
-export default class Demo3 extends Component {
-  constructor(){
+class CoustomView extends Component {
+  constructor() {
     super();
     this.state = {text:''};
   }
@@ -54,18 +57,27 @@ export default class Demo3 extends Component {
     let image = {
       uri:'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
     };
-    return (
-      // <View style={styles.container}>
-      //   {/* 在数组中位置居后的样式对象比居前的优先级更高 */}
-      //   <Text style={[styles.welcome,styles.yellow,styles.red]}> hello</Text>
-      //   <Text style = {{fontSize:21,textAlign:'center'}}>你好{'\n'} hello world</Text>
-      //   <Image source = {image} style = {{height:100,width:200} } />
-      //   <Greeting name = '张三'/>
-      //   <Blink text = '走你' />
-      //   {/* <View style={styles.container}> <Greeting name = '我试试'/> </View> */}
-      // </View>
+    return(
       <View style = {{flex:1,backgroundColor:'#F5FCFF',flexDirection:'column'}}>
-        <View style = {{flex:1,backgroundColor:'red'}}></View>
+        <View style = {{flex:1,backgroundColor:'red'}}>
+          <TouchableOpacity
+            onPress = {()=>{
+            const{navigator} = this.props;
+            navigator.push({
+              component:SecondView,
+              params:{
+                name:'张三',
+                //传递给下一界面一个方法
+                changeName:function(name){
+                  console.warn(`下一界面传过来的name:`+name);
+                },
+              },
+            });
+          }}
+          >
+          <Text style = {{top:50,textAlign:'center',fontSize: 20,}}>按钮:张三</Text>
+        </TouchableOpacity>
+        </View>
         <View style = {{flex:1,backgroundColor:'yellow',justifyContent:'center'}}>
           <TextInput
             style = {styles.inputStyle}
@@ -96,6 +108,36 @@ export default class Demo3 extends Component {
         </View>
         <Text style = {{flex:1,backgroundColor:'pink'}}></Text>
       </View>
+    );
+  }
+}
+
+export default class Demo3 extends Component {
+  constructor(){
+    super();
+  }
+  render() {
+    return (
+      // <View style={styles.container}>
+      //   {/* 在数组中位置居后的样式对象比居前的优先级更高 */}
+      //   <Text style={[styles.welcome,styles.yellow,styles.red]}> hello</Text>
+      //   <Text style = {{fontSize:21,textAlign:'center'}}>你好{'\n'} hello world</Text>
+      //   <Image source = {image} style = {{height:100,width:200} } />
+      //   <Greeting name = '张三'/>
+      //   <Blink text = '走你' />
+      //   {/* <View style={styles.container}> <Greeting name = '我试试'/> </View> */}
+      // </View>
+      <Navigator
+        styles = {styles.container}
+      initialRoute = {{
+          component:CoustomView,
+          name:`CoustomView`,
+      }}
+      renderScene = {(route,navigator)=>{
+        let Component = route.component;
+        return <Component {...route.params} navigator = {navigator} />;
+      }}
+    />
     );
   }
 }

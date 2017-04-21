@@ -165,7 +165,30 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 `rowHasChanged`:
 
-8.`Navigator`:
+8.`Navigator`:父子传值时,使用`params`传递参数
+
+界面间的相互传值:
+
+```JavaScript
+//第一个界面
+navigator.push({
+  component:SecondView,
+  // QUESTION: params,passProps
+  params:{
+    name:'张三',
+    //传递给下一界面一个方法
+    changeName:function(name){
+      console.warn(`下一界面传过来的name:`+name);
+    },
+  },
+});
+```
+
+```JavaScript
+//第二个界面
+this.props.changeName(`李四`);
+this.props.navigator.pop();
+```
 
 `initialRoute`:定义启动时加载的路由
 

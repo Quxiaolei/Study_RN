@@ -26,6 +26,12 @@ let ArticleDetailAPI = HostApi+'play/circle/getPostInfo4C';
 let {height,width} = Dimensions.get('window');
 
 class ArticleDetailView extends Component{
+  constructor(){
+    super();
+    this.state = {
+      webViewHeight:100,
+    }
+  }
   componentWillMount(){
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
@@ -63,7 +69,17 @@ class ArticleDetailView extends Component{
         startInLoadingState = {true}
         scalesPageToFit = {true}
         scrollEnabled = {false}
-        style = {{backgroundColor:'red',height:600}}
+        style = {{backgroundColor:'red',height:this.state.webViewHeight}}
+        injectedJavaScript="document.addEventListener('message', function(e) {eval(e.data);});"
+        onMessage = {(event)=>{
+          //网页端的window.postMessage会发送一个参数data.RN端获取webView的参数在event对象中，即event.nativeEvent.data
+          //网页端收到高度参数
+          let webViewHeight = Number(event.nativeEvent.data);
+          // alert('webViewHeight:'+webViewHeight);
+          this.setState({
+            webViewHeight:webViewHeight,
+          })
+        }}
         onLoadStart = {()=>{
           // console.warn('webView load start \n'+Date().toLocaleString());
         }}
@@ -83,10 +99,10 @@ class ArticleDetailView extends Component{
           // console.warn(this.refs.webView);
         }}
         onLoadEnd = {(webView)=>{
+          //调用webview网页内部的window.postMessage方法发送参数,实现RN与网页之间的交互
+          //发送webView的高度
+          this.refs.webView.postMessage('window.postMessage(document.body.offsetHeight);');
           // console.warn('webView load end \n'+Date().toLocaleString());
-          // console.warn(this.refs.webView.height);
-          // this.refs.webView.height = 1000;
-          // console.warn(webView.contentInset);
         }}
         renderLoading = {()=><View style = {{flex:1,'justifyContent':'center'}}>
           <ActivityIndicator animating = {true} size = 'large'/>

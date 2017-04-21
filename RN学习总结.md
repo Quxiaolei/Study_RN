@@ -151,7 +151,11 @@ var icon = this.props.active ? require('./my-icon-active.png') : require('./my-i
 
 `ScrollView`中所有的组件都会被渲染,不考虑组件的重用.适合短列表数据展示.
 
-`contentContainerStyle`:
+`contentContainerStyle`:会应用scrollView的内容容器上,所有的子视图都会包裹在内容容器内
+
+`onContentSizeChange`:当scrollView的内容发生变化时调用
+
+`onScroll`:
 
 7.`ListView`:
 
@@ -242,7 +246,32 @@ this.props.navigator.pop();
 
 `automaticallyAdjustContentInsets`,`contentInset`
 
-`onError`,`onLoad`,`onLoadStart`,`onLoadEnd`,`onMessage`,`onNavigationStateChange`,`renderError`(返回一个视图用于显示错误界面),`renderLoading`(返回一个视图用于显示加载界面)
+`onError`,`onLoad`,`onLoadStart`,`onLoadEnd`,`onNavigationStateChange`,`renderError`(返回一个视图用于显示错误界面),`renderLoading`(返回一个视图用于显示加载界面)
+
+`onMessage`:
+
+调用webview网页内部的`window.postMessage`方法发送参数,实现RN与网页之间的交互.
+
+```JavaScript
+onLoadEnd = {(webView)=>{
+  //调用webview网页内部的window.postMessage方法发送参数,实现RN与网页之间的交互
+  //发送webView的高度
+  this.refs.webView.postMessage('window.postMessage(document.body.offsetHeight);');
+}}
+```
+网页端的`window.postMessage`会发送一个参数data.RN端获取webView的参数在event对象中，即`event.nativeEvent.data`
+
+```JavaScript
+onMessage = {(event)=>{
+  //网页端的window.postMessage会发送一个参数data.RN端获取webView的参数在event对象中，即event.nativeEvent.data
+  //网页端收到高度参数
+  let webViewHeight = Number(event.nativeEvent.data);
+  // alert('webViewHeight:'+webViewHeight);
+  this.setState({
+    webViewHeight:webViewHeight,
+  })
+}}
+```
 
 12.`PanResponder`:事件的响应链同原生,由父级View底层向上层冒泡传递
 

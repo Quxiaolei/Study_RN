@@ -86,7 +86,7 @@ class ArticleDetailView extends Component{
         // onContentSizeChange = {()=>{
         //   console.warn(`contentHeight`);
         // }}
-        onLoad = {(webView)=>{
+        onLoad = {()=>{
           // FIXME 动态改变webView高度
           // console.warn(`webView.height`);
           // console.warn('webView load end \n'+Date().toLocaleString());
@@ -98,7 +98,7 @@ class ArticleDetailView extends Component{
           // console.warn(navState.url);
           // console.warn(this.refs.webView);
         }}
-        onLoadEnd = {(webView)=>{
+        onLoadEnd = {()=>{
           //调用webview网页内部的window.postMessage方法发送参数,实现RN与网页之间的交互
           //发送webView的高度
           this.refs.webView.postMessage('window.postMessage(document.body.offsetHeight);');
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // backgroundColor: 'yellow',
     // '#FFFFFF',
-    overflow:'hidden',
+    // overflow:'hidden',
     // paddingTop:20,
     // height:height,
   },

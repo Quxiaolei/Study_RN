@@ -253,7 +253,7 @@ this.props.navigator.pop();
 调用webview网页内部的`window.postMessage`方法发送参数,实现RN与网页之间的交互.
 
 ```JavaScript
-onLoadEnd = {(webView)=>{
+onLoadEnd = {()=>{
   //调用webview网页内部的window.postMessage方法发送参数,实现RN与网页之间的交互
   //发送webView的高度
   this.refs.webView.postMessage('window.postMessage(document.body.offsetHeight);');
@@ -272,6 +272,7 @@ onMessage = {(event)=>{
   })
 }}
 ```
+[WebView JS与RN进行通讯](http://www.cnblogs.com/cbcye/p/6081682.html)
 
 12.`PanResponder`:事件的响应链同原生,由父级View底层向上层冒泡传递
 

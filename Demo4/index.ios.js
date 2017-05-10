@@ -85,7 +85,7 @@ export default class Demo4 extends Component {
           onPress = {()=>this._tabbarItemPressed('mine')}
           // {()=>this.setState({selectedTab:'mine'})}
           >
-            <Mine />
+            <Mine tabbarHidden = {(state) => this.hiddenTabBar(state)}/>
         </TabNavigator.Item>
       </TabNavigator>
     );

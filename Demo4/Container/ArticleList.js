@@ -40,19 +40,24 @@ class ScrollViewContent extends Component{
   constructor(props){
     super(props);
   }
-  _ScrollViewDetailViewClicked(bannerInfo:Object,navigator:Object){
+  _ScrollViewDetailViewClicked(bannerInfo:Object,props:Object){
     // console.warn('_ScrollViewDetailViewClicked\n'+bannerInfo.targetInfo+'\n'+bannerInfo.targetType);
+    // console.warn(`_ScrollViewDetailViewClicked:`+props.tabbarHidden);
     if(1 == bannerInfo.targetType){
       bannerInfo.targetInfo = bannerInfo.targetInfo+'?poCode=ZH000030';
       //web展示
       //http://172.16.101.202/info/experiencegold/experiencegold.html?poCode=ZH000030
-      navigator.push({
+      props.navigator.push({
         leftButtonIcon:require('../Images/nav_back.png'),
-        onLeftButtonPress:()=>navigator.pop(),
+        onLeftButtonPress:()=>{
+          this.props.tabbarHidden(false);
+          props.navigator.pop();
+        },
         component:WebViewContainer,
         title:bannerInfo.title,
         passProps:{
           bannerInfo:bannerInfo,
+          tabbarHidden:this.props.tabbarHidden,
         },
         params:{
           bannerInfo:bannerInfo,
@@ -60,10 +65,14 @@ class ScrollViewContent extends Component{
       });
     }else if (2==bannerInfo.targetType) {
       let postInfo = bannerInfo.targetInfo.replace('postId=','');
-      navigator.push({
+      this.props.tabbarHidden(true);
+      props.navigator.push({
         // leftButtonTitle:'back',
         leftButtonIcon:require('../Images/nav_back.png'),
-        onLeftButtonPress:()=>navigator.pop(),
+        onLeftButtonPress:()=>{
+          this.props.tabbarHidden(false);
+          props.navigator.pop();
+        },
         component:ArticleDetail,
         title:'帖子详情',
         // barTintColor: '#996699',
@@ -72,6 +81,7 @@ class ScrollViewContent extends Component{
         passProps:{
           text:'这是从帖子界面获取到的文本',
           postId:postInfo,
+          tabbarHidden:this.props.tabbarHidden,
         },
         params:{
           text:'这是从帖子界面获取到的文本',
@@ -88,9 +98,10 @@ class ScrollViewContent extends Component{
       uri:HostApi+bannerImage,
     }
     // require('../Images/blue.png');
+    // console.warn(`_ScrollViewDetailViewClicked====:`+this.props.tabbarHidden);
     return (
       <TouchableOpacity
-        onPress = {()=>this._ScrollViewDetailViewClicked(bannerInfo,this.props.navigator)}
+        onPress = {()=>this._ScrollViewDetailViewClicked(bannerInfo,this.props)}
         >
         <Image source = {image} style = {{flex:1,flexDirection:'column-reverse',width:width-20,margin:10}}>
           <Text style= {{fontSize:16,color:'white',marginBottom:10,marginLeft:10,backgroundColor:'rgba(100, 100, 100, 0.00001)'}}>{bannerTitle}</Text>
@@ -103,6 +114,7 @@ class ScrollViewContent extends Component{
 class ListViewCell extends Component{
   constructor(props){
     super(props);
+    // console.warn(`this`+this.props.tabbarHidden);
     // console.warn('cell---->selection:'+this.props.selectionID+' row:'+this.props.rowID);
   }
 
@@ -110,6 +122,8 @@ class ListViewCell extends Component{
     // console.warn('clicked rowID:'+this.props.rowID);
     // console.warn('navigator:'+this.props.navigator);
     // console.warn(`列表postId`+postId);
+    // console.warn(this.props.tabbarHidden);
+    this.props.tabbarHidden(true);
     if(Platform.OS === 'android'){
       //因为Navigator <Component {...route.params} navigator={navigator} />传入了navigator 所以这里能取到navigator
       const{navigator} = this.props;
@@ -118,13 +132,17 @@ class ListViewCell extends Component{
         params:{
           text:'这是从帖子界面获取到的文本',
           postId:postId,
+          tabbarHidden:this.props.tabbarHidden,
         },
       });
     } else{
       this.props.navigator.push({
         // leftButtonTitle:'back',
         leftButtonIcon:require('../Images/nav_back.png'),
-        onLeftButtonPress:()=>this.props.navigator.pop(),
+        onLeftButtonPress:()=>{
+          this.props.tabbarHidden(false);
+          this.props.navigator.pop();
+        },
         component:ArticleDetail,
         title:'帖子详情',
         // barTintColor: '#996699',
@@ -133,6 +151,7 @@ class ListViewCell extends Component{
         passProps:{
           text:'这是从帖子界面获取到的文本',
           postId:postId,
+          tabbarHidden:this.props.tabbarHidden,
         },
       });
     }
@@ -239,6 +258,8 @@ class ArticleListBannerView extends Component{
         </View>
       );
     }
+
+    // console.warn(`eqweqe`+this.props.tabbarHidden);
     return (
       <ScrollView
         // QUESTION: ref相关,_scrollView怎么不用定义
@@ -262,7 +283,7 @@ class ArticleListBannerView extends Component{
             // console.warn(this.state.bannerDataSource);
             this.state.bannerDataSource.map((bannerInfo,i)=>
               // console.warn(bannerInfo.title);
-              <ScrollViewContent key={i} bannerInfo = {bannerInfo} navigator = {this.props.navigator}/>
+              <ScrollViewContent key={i} bannerInfo = {bannerInfo} navigator = {this.props.navigator} tabbarHidden = {this.props.tabbarHidden}/>
             )
           }
           {/* //普通的设置方法
@@ -278,6 +299,7 @@ class ArticleListBannerView extends Component{
 class ArticleListView extends Component {
   constructor(props){
     super(props);
+    // console.warn(`2213`+this.props.tabbarHidden+props.tabbarHidden);
     // let ArticleListJSON = require('./ArticleList.json');
     // let ArticleListArray = ArticleListJSON.postListPerPage.postList;
     // let BannerListJSON = require('./ArticleBannerList.json');
@@ -347,12 +369,12 @@ class ArticleListView extends Component {
           dataSource = {this.state.dataSource}
           renderRow = {(rowData,selection,row)=> {
             // console.warn('selection:'+selection+' row:'+row);
-            return <ListViewCell currentRowData = {rowData} selectionID = {selection} rowID ={row} navigator = {this.props.navigator}/>}}
+            return <ListViewCell currentRowData = {rowData} selectionID = {selection} rowID ={row} navigator = {this.props.navigator} tabbarHidden = {this.props.tabbarHidden}/>}}
           //可使用borderBottomWidth实现
           renderSeparator = {(selection,row) => <View key= {`${selection} -${row}`} style = {styles.cellSeparator} />}
           //设置区头部分显示是否固定
           stickySectionHeadersEnabled = {false}
-          renderSectionHeader = {(selection,row) =><ArticleListBannerView navigator = {this.props.navigator}/>}
+          renderSectionHeader = {(selection,row) =><ArticleListBannerView navigator = {this.props.navigator} tabbarHidden = {this.props.tabbarHidden}/>}
        />
       </View>
 
@@ -390,6 +412,7 @@ export default class ArticleList extends Component {
   constructor(props){
     super(props);
     // console.warn(this.props.selectedTabName);
+    // console.warn(`ArticleList`+this.props.tabbarHidden);
     this.state = {
     };
   }
@@ -422,6 +445,8 @@ export default class ArticleList extends Component {
   render() {
     let defaultComponent = ArticleListView;
     let defaultName = 'ArticleList';
+    let tabbarHidden = this.props.tabbarHidden;
+    // console.warn(`ArticleList:`+this.props.tabbarHidden);
     if(Platform.OS === 'android'){
       const routes = [{component:defaultComponent,name:defaultName,index:0}, ];
       return (
@@ -431,7 +456,7 @@ export default class ArticleList extends Component {
           renderScene = {(route,navigator)=>{
             let Component = route.component;
             if(Component){
-              return <Component {...route.params} navigator = {navigator} />
+              return <Component {...route.params} navigator = {navigator} tabbarHidden = {this.props.tabbarHidden}/>
             }
           }}
           // navigationBar={
@@ -471,6 +496,7 @@ export default class ArticleList extends Component {
           title:'投资圈',
           rightButtonTitle:'详情',
           translucent:true,
+          passProps:{tabbarHidden},
           onRightButtonPress:()=>this._GoToArticleDetail(),
         }}
         style = {{flex:1}}

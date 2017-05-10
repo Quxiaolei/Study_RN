@@ -31,6 +31,7 @@ export default class WebViewContainer extends Component {
   }
 
   componentDidMount(){
+    this.props.tabbarHidden(true);
   }
 
   componentWillUnmoont(){
@@ -44,6 +45,7 @@ export default class WebViewContainer extends Component {
           <View style = {{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'white',height:Platform.OS === 'android'?46:0}}>
             <TouchableOpacity
               onPress = {()=>{
+                this.props.tabbarHidden(false);
                 this.props.navigator.pop();
               }}>
               <Text style = {{backgroundColor:'white',textAlign:'center',textAlignVertical:'center'}}>返回</Text>

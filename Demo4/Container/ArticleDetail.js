@@ -26,8 +26,8 @@ let ArticleDetailAPI = HostApi+'play/circle/getPostInfo4C';
 let {height,width} = Dimensions.get('window');
 
 class ArticleDetailView extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       webViewHeight:100,
     }
@@ -39,6 +39,8 @@ class ArticleDetailView extends Component{
       onPanResponderMove: (evt, gestureState) => {
       // console.warn('x轴偏移量'+gestureState.dx);
       if(gestureState.dx > 50){
+        // console.warn(`2231231`+this.props.tabbarHidden);
+        this.props.tabbarHidden(false);
         //返回列表
         this.props.navigator.pop();
       }
@@ -188,7 +190,7 @@ export default class ArticleDetail extends Component {
     // console.warn(`title `+this.props.text);
     // console.warn(`postid `+this.props.postId);
     return (
-        <ArticleDetailView articleData = {this.state.articleDetailData.result} navigator = {this.props.navigator}/>
+        <ArticleDetailView articleData = {this.state.articleDetailData.result} navigator = {this.props.navigator} tabbarHidden = {this.props.tabbarHidden}/>
       // <NavigatorIOS
       //   initialRoute = {{
       //     component:ArticleDetailView,

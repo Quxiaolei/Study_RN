@@ -26,13 +26,32 @@ export default class Demo4 extends Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedTab:'article'
+      selectedTab:'article',
+      tabBarHeight:49,
     };
   }
+
+  hiddenTabBar(state){
+    // console.warn(`hidden:`+state);
+    this.setState({
+      tabBarHeight: state? 0:49,
+    });
+  }
+
+  _tabbarItemPressed(selectedTitle:String){
+    // console.warn(selectedTitle);
+    this.setState({
+      selectedTab:selectedTitle,
+      // tabBarHeight:0
+    })
+  }
+
   render() {
     return (
       <TabNavigator
         ref = 'tabbar'
+        tabBarStyle = {{height:this.state.tabBarHeight,overflow:'hidden'}}
+        sceneStyle = {{paddingBottom:this.state.tabBarHeight}}
         >
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'home'}
@@ -42,7 +61,7 @@ export default class Demo4 extends Component {
           onPress = {()=>this.setState({selectedTab:'home'})}
           badgeText = '1'
           >
-            <Majordomo />
+            <Majordomo tabbar = {this.refs.tabbar}/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'article'}
@@ -51,7 +70,7 @@ export default class Demo4 extends Component {
           renderSelectedIcon = {()=><Image source = {require('./Images/Tabbar/财富圈_selected.png')}/>}
           onPress = {()=>this.setState({selectedTab:'article'})}
           >
-            <ArticleList tabbar = {this.refs.tabbar} selectedTabName='article'/>
+            <ArticleList tabbarHidden = {(state) => this.hiddenTabBar(state)} selectedTabName='article'/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'mine'}

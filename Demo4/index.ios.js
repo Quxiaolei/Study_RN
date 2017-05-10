@@ -28,15 +28,17 @@ export default class Demo4 extends Component {
     super(props);
     this.state = {
       selectedTab:'article',
-      tabBarHeight:50,
+      tabBarHeight:49,
     };
   }
-  //隐藏Tabbar
-  // let tabBarHeight = 0;
-  // <TabNavigator
-  //   tabBarStyle={{ height: tabBarHeight, overflow: 'hidden' }}
-  //   sceneStyle={{ paddingBottom: tabBarHeight }}
-  // />
+
+  hiddenTabBar(state){
+    // console.warn(`hidden:`+state);
+    this.setState({
+      tabBarHeight: state? 0:49,
+    });
+  }
+
   _tabbarItemPressed(selectedTitle:String){
     // console.warn(selectedTitle);
     this.setState({
@@ -44,15 +46,15 @@ export default class Demo4 extends Component {
       // tabBarHeight:0
     })
   }
+
   render() {
     // console.warn(this.refs.tabbar);
     // console.warn(this.state.tabBarHeight);
     return (
       <TabNavigator
         ref = 'tabbar'
-        // style = {{height:this.state.tabBarHeight,overflow:'hidden'}}
-        // sceneStyle = {{paddingBottom:this.state.tabBarHeight}}
-        // hidesTabTouch = {true}
+        tabBarStyle = {{height:this.state.tabBarHeight,overflow:'hidden'}}
+        sceneStyle = {{paddingBottom:this.state.tabBarHeight}}
         >
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'home'}
@@ -72,7 +74,8 @@ export default class Demo4 extends Component {
           onPress = {()=>this.setState({selectedTab:'article'})}
           >
             {/*TabNavigator对象未初始化完成,此时传递对象是undefined*/}
-            <ArticleList tabbar = {this.refs.tabbar} selectedTabName='article'/>
+            {/* <ArticleList tabbar = {this.refs.tabbar} selectedTabName='article'/> */}
+            <ArticleList tabbarHidden = {(state) => this.hiddenTabBar(state)} selectedTabName='article'/>
         </TabNavigator.Item>
         <TabNavigator.Item
           selected = {this.state.selectedTab === 'mine'}

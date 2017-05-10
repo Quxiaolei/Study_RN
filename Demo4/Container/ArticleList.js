@@ -427,10 +427,14 @@ export default class ArticleList extends Component {
   _GoToArticleDetail(){
     // console.warn('帖子详情');
     // TODO: 隐藏tabbar
+    this.props.tabbarHidden(true);
     this.refs.nav.push({
       // leftButtonTitle:'back',
       leftButtonIcon:require('../Images/nav_back.png'),
-      onLeftButtonPress:()=>this.refs.nav.pop(),
+      onLeftButtonPress:()=>{
+        this.props.tabbarHidden(false);
+        this.refs.nav.pop();
+      },
       component:ArticleDetail,
       title:'帖子详情',
       // barTintColor: '#996699',
@@ -438,6 +442,7 @@ export default class ArticleList extends Component {
       passProps:{
         text:'这是从帖子界面获取到的文本',
         postId:'330',
+        tabbarHidden:this.props.tabbarHidden,
       },
     });
   }
